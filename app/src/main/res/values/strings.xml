@@ -13,4 +13,14 @@
     <string name="register_button">Register</string>
     <string name="registration_create_account_succes_header">Create Account Succes</string>
     <string name="registration_success_description">Your account successfully created. Now, you can start chatting with your group and talk about any topics :)</string>
+    <string name="create_group_menu">Create Group</string>
+    <string name="open_setting_menu">Open Setting</string>
+    <string name="no_group">Create or Join a \nGroup</string>
+    <string name="create_group_header">Create Group</string>
+    <string name="group_name_hint">group name</string>
+    <string name="member_s_username_hint">member\'s username</string>
+    <string name="create_group_button">create group</string>
+    <string name="type_your_message_here_hint">Type your message here...</string>
+    <string name="topics_content_description">topics</string>
+    <string name="send_button">Send</string>
 </resources>

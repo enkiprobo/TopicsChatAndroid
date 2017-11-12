@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.enkiprobo.topicschat.GroupChatActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/tb_chatGroup"
+        android:layout_alignParentTop="true"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="@dimen/elevation_app_bar"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:padding="@dimen/padding_standard">
+
+        <ImageView
+            android:id="@+id/iv_chatTopics"
+            android:layout_alignParentLeft="true"
+            android:contentDescription="@string/topics_content_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_label_black_24dp"/>
+        <EditText
+            android:id="@+id/et_chatMessage"
+            android:layout_toRightOf="@+id/iv_chatTopics"
+            android:layout_toLeftOf="@+id/tv_chatSend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/type_your_message_here_hint"/>
+        <TextView
+            android:id="@+id/tv_chatSend"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/send_button"
+            android:gravity="center"/>
+    </RelativeLayout>
+</RelativeLayout>

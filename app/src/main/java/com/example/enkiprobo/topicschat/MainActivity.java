@@ -14,7 +14,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void keHalamanUtama(View view) {
+        Intent inten = new Intent(this, UserMainActivity.class);
 
+        startActivity(inten);
+        finish();
     }
 
     public void keHalamanRegistrasi(View view) {

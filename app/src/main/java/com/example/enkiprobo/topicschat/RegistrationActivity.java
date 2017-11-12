@@ -17,5 +17,6 @@ public class RegistrationActivity extends AppCompatActivity {
         Intent inten = new Intent(this, RegistrationSuccessActivity.class);
 
         startActivity(inten);
+        finish();
     }
 }
