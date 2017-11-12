@@ -5,4 +5,12 @@
     <string name="login_button">Login</string>
     <string name="create_account_button">Create Account</string>
     <string name="topics_chat_logo">topics chat logo</string>
+    <string name="registration_login_information_header">Login Information</string>
+    <string name="confirm_password_hint">confirm password</string>
+    <string name="registration_personal_information_header">Personal Information</string>
+    <string name="full_name_hint">full name</string>
+    <string name="birth_date_hint">birth date</string>
+    <string name="register_button">Register</string>
+    <string name="registration_create_account_succes_header">Create Account Succes</string>
+    <string name="registration_success_description">Your account successfully created. Now, you can start chatting with your group and talk about any topics :)</string>
 </resources>

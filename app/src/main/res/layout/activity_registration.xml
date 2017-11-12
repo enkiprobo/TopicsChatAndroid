@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="false"
+    android:padding="@dimen/padding_standard"
+    android:background="@color/main_background"
+    tools:context="com.example.enkiprobo.topicschat.RegistrationActivity">
+
+    <ImageView
+        android:id="@+id/iv_topicLogo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/topics_chat_logo"
+        android:maxHeight="30sp"
+        android:maxWidth="30sp"
+        android:scaleType="fitStart"
+        android:src="@drawable/topics_chat_logo" />
+
+    <LinearLayout
+        android:id="@+id/ly_loginInformation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/iv_topicLogo"
+        android:layout_marginTop="20sp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/registration_login_information_header"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/et_registrationUsername"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30sp"
+            android:layout_marginRight="30sp"
+            android:hint="@string/username_hint"
+            android:inputType="textShortMessage" />
+
+        <EditText
+            android:id="@+id/et_registrationPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30sp"
+            android:layout_marginRight="30sp"
+            android:hint="@string/password_hint"
+            android:inputType="textPassword" />
+
+        <EditText
+            android:id="@+id/et_registrationConfirmPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30sp"
+            android:layout_marginRight="30sp"
+            android:hint="@string/confirm_password_hint"
+            android:inputType="textPassword" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ly_personalInformation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ly_loginInformation"
+        android:layout_marginTop="20sp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/registration_personal_information_header"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/et_registrationFullName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30sp"
+            android:layout_marginRight="30sp"
+            android:hint="@string/full_name_hint"
+            android:inputType="textShortMessage" />
+
+        <EditText
+            android:id="@+id/et_registrationBirthDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30sp"
+            android:layout_marginRight="30sp"
+            android:hint="@string/birth_date_hint"
+            android:inputType="date" />
+    </LinearLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="-10sp"
+        android:layout_marginLeft="-10sp"
+        android:layout_marginRight="-10sp"
+        android:layout_marginTop="-10sp"
+        android:padding="0sp"
+        android:text="@string/register_button"
+        android:onClick="keHalamanBerhasil"/>
+</RelativeLayout>

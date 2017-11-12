@@ -5,20 +5,16 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-public class MainActivity extends AppCompatActivity {
+public class RegistrationSuccessActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_registration_success);
     }
 
-    public void keHalamanUtama(View view) {
-
-    }
-
-    public void keHalamanRegistrasi(View view) {
-        Intent inten = new Intent(this, RegistrationActivity.class);
+    public void keHalamanLogin(View view) {
+        Intent inten = new Intent(this, MainActivity.class);
 
         startActivity(inten);
     }

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#ecf0f1"
+    android:background="@color/main_background"
     tools:context="com.example.enkiprobo.topicschat.MainActivity">
 
     <ImageView
@@ -42,12 +42,14 @@
             android:layout_marginTop="20sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/login_button"/>
+            android:text="@string/login_button"
+            android:onClick="keHalamanUtama"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/create_account_button"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:onClick="keHalamanRegistrasi"/>
     </LinearLayout>
 
 
