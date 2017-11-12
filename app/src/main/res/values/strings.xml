@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Topics Chat</string>
+    <string name="username_hint">username</string>
+    <string name="password_hint">password</string>
+    <string name="login_button">Login</string>
+    <string name="create_account_button">Create Account</string>
+    <string name="topics_chat_logo">topics chat logo</string>
 </resources>
