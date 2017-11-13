@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/main_background"
-    tools:context="com.example.enkiprobo.topicschat.MainActivity">
+    tools:context="com.example.enkiprobo.topicschat.LoginActivity">
 
     <ImageView
         android:contentDescription="@string/topics_chat_logo"

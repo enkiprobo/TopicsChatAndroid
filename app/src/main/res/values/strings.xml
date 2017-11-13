@@ -23,4 +23,8 @@
     <string name="type_your_message_here_hint">Type your message here...</string>
     <string name="topics_content_description">topics</string>
     <string name="send_button">Send</string>
+
+    <string name="title_activity_launcher">LauncherActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>

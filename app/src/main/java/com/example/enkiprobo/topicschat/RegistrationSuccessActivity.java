@@ -14,7 +14,7 @@ public class RegistrationSuccessActivity extends AppCompatActivity {
     }
 
     public void keHalamanLogin(View view) {
-        Intent inten = new Intent(this, MainActivity.class);
+        Intent inten = new Intent(this, LoginActivity.class);
 
         startActivity(inten);
         finish();

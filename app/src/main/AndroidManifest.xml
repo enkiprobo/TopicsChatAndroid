@@ -9,29 +9,31 @@
         android:roundIcon="@mipmap/ic_launcher_topics_chat"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity
-            android:name=".MainActivity"
-            android:launchMode="singleInstance">
+        <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".LoginActivity"
+            android:launchMode="singleInstance">
+
+        </activity>
         <activity android:name=".RegistrationActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value=".LoginActivity" />
         </activity>
         <activity android:name=".RegistrationSuccessActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value=".LoginActivity" />
         </activity>
         <activity
             android:name=".UserMainActivity"
-            android:label="">
-        </activity>
+            android:label="" />
         <activity
             android:name=".NewGroupActivity"
             android:label=""
@@ -45,6 +47,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".UserMainActivity" />
         </activity>
+
     </application>
 
 </manifest>
