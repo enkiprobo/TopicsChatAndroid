@@ -25,4 +25,18 @@
     <style name="FullscreenActionBarStyle" parent="Widget.AppCompat.ActionBar">
         <item name="android:background">@color/black_overlay</item>
     </style>
+
+    <style name="default_button_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">#8353E6</item>
+        <item name="android:textColor">#FCFAFF</item>
+    </style>
+
+    <style name="default_text_editor_color">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColorHint">#000000</item>
+        <item name="android:backgroundTint">#8353E6</item>
+    </style>
 </resources>
