@@ -4,20 +4,52 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import topicschat.networkutil.NetworkUtilTC;
 
 public class LoginActivity extends AppCompatActivity {
+
+    private EditText metUsername;
+    private EditText metPassword;
+    private TextView mtvErrorLogin;
+    private Button mbtLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        metUsername = (EditText) findViewById(R.id.et_usernameLogin);
+        metPassword = (EditText) findViewById(R.id.et_passwordLogin);
+        mtvErrorLogin = (TextView) findViewById(R.id.tv_errorLogin);
+        mbtLogin = (Button) findViewById(R.id.bt_login);
     }
 
     public void keHalamanUtama(View view) {
-        Intent inten = new Intent(this, UserMainActivity.class);
+//        Intent inten = new Intent(this, UserMainActivity.class);
+//
+//        startActivity(inten);
+//        finish();
 
-        startActivity(inten);
-        finish();
+        mtvErrorLogin.setVisibility(View.GONE);
+        mbtLogin.setEnabled(false);
+        mbtLogin.setBackgroundColor(getResources().getColor(R.color.black_overlay));
+
+        String username = metUsername.getText().toString();
+        String password = metPassword.getText().toString();
+        if ( username.length()==0 || password.equals(0)){
+            mtvErrorLogin.setVisibility(View.VISIBLE);
+            mtvErrorLogin.setText("please fill all form");
+
+            mbtLogin.setEnabled(true);
+            mbtLogin.setBackgroundColor(getResources().getColor(R.color.mainPurple));
+        } else {
+            NetworkUtilTC networkUtilTC = new NetworkUtilTC();
+            networkUtilTC.Login(this, username, password);
+        }
     }
 
     public void keHalamanRegistrasi(View view) {

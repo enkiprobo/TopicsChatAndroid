@@ -94,18 +94,20 @@
             android:inputType="textShortMessage"
             style="@style/default_text_editor_color"/>
 
-        <EditText
-            android:id="@+id/et_registrationBirthDate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30sp"
-            android:layout_marginRight="30sp"
-            android:hint="@string/birth_date_hint"
-            android:inputType="date"
-            style="@style/default_text_editor_color"/>
     </LinearLayout>
+    <TextView
+        android:layout_marginTop="20sp"
+        android:id="@+id/tv_errorMessage"
+        android:layout_below="@+id/ly_personalInformation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@color/redError"
+        android:visibility="gone"
+        android:text="askjdflkjsafkfjsakfjaskdjf"/>
 
     <Button
+        android:id="@+id/bt_register"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
