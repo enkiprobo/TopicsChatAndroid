@@ -21,10 +21,10 @@ import topicschat.sqlitedatamodel.UsersGroup;
 
 public class UserGroupAdapter extends RecyclerView.Adapter<UserGroupAdapter.UserGroupViewHolder> {
 
-    private static final String EXTRA_IDGROUP = "com.example.enkiprobo.topicschat.idgroup";
-    private static final String EXTRA_IDGM = "com.example.enkiprobo.topicschat.idgm";
-    private static final String EXTRA_GROUPNAME = "com.example.enkiprobo.topicschat.groupname";
-    private static final String EXTRA_GROUPPHOTO = "com.example.enkiprobo.topicschat.groupphoto";
+    public static final String EXTRA_IDGROUP = "com.example.enkiprobo.topicschat.idgroup";
+    public static final String EXTRA_IDGM = "com.example.enkiprobo.topicschat.idgm";
+    public static final String EXTRA_GROUPNAME = "com.example.enkiprobo.topicschat.groupname";
+    public static final String EXTRA_GROUPPHOTO = "com.example.enkiprobo.topicschat.groupphoto";
 
     private LayoutInflater layoutInflater;
     private Context context;

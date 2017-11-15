@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.enkiprobo.topicschat.GroupChatActivity;
 import com.example.enkiprobo.topicschat.R;
 import com.example.enkiprobo.topicschat.RegistrationSuccessActivity;
 import com.example.enkiprobo.topicschat.UserMainActivity;
@@ -143,6 +144,7 @@ public class NetworkUtilTC {
                         TextView tv = (TextView) ((Activity) context).findViewById(R.id.tv_errorLogin);
                         tv.setVisibility(View.VISIBLE);
                         tv.setText("please try again later");
+                        Log.d("MAJU", "network adapter gpp kok");
                     }
                 });
             }
@@ -333,12 +335,86 @@ public class NetworkUtilTC {
                                 ((Activity) context).finish();
                             }
                         } catch (JSONException e) {
+                            tv.setText("error while getting group data");
+                            bt.setEnabled(true);
+                            bt.setBackgroundColor(context.getResources().getColor(R.color.mainPurple));
                             e.printStackTrace();
                         } catch (IOException e) {
+                            tv.setText("error while getting group data");
+                            bt.setEnabled(true);
+                            bt.setBackgroundColor(context.getResources().getColor(R.color.mainPurple));
                             e.printStackTrace();
                         }
                     }
                 });
+            }
+        });
+    }
+
+    public void insertMember(final Context context, int idGroup, String username) {
+        RequestBody requestBody = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart(PARAM_IDGROUP, idGroup+"")
+                .addFormDataPart(PARAM_USERNAME, username)
+                .build();
+
+        final Request request = new Request.Builder()
+                .url(URL_BASE + "insertmember")
+                .method("POST", RequestBody.create(null, new byte[0]))
+                .post(requestBody)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                ((Activity)context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        TextView tv = (TextView) ((Activity) context).findViewById(R.id.tv_errorMessageInviteUser);
+                        Button bt = (Button) ((Activity) context).findViewById(R.id.bt_inviteUser);
+
+                        tv.setText("please try again later");
+                        bt.setEnabled(true);
+                        bt.setBackgroundColor(context.getResources().getColor(R.color.mainPurple));
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Call call,final Response response) throws IOException {
+                ((Activity)context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        TextView tv = (TextView) ((Activity) context).findViewById(R.id.tv_errorMessageInviteUser);
+                        Button bt = (Button) ((Activity) context).findViewById(R.id.bt_inviteUser);
+
+                        try {
+                            JSONObject responseJson = new JSONObject(response.body().string());
+                            String status = responseJson.getString("status");
+
+                            if (!status.equals("OK")){
+                                tv.setText("user's doesn't exist");
+                                bt.setEnabled(true);
+                                bt.setBackgroundColor(context.getResources().getColor(R.color.mainPurple));
+                            }else {
+                                Intent inten = new Intent(context, GroupChatActivity.class);
+                                context.startActivity(inten);
+                                ((Activity) context).finish();
+                            }
+                        } catch (JSONException e) {
+                            tv.setText("user does't not exist");
+                            bt.setEnabled(true);
+                            bt.setBackgroundColor(context.getResources().getColor(R.color.mainPurple));
+                            e.printStackTrace();
+                        } catch (IOException e){
+                            tv.setText("error while getting user data");
+                            bt.setEnabled(true);
+                            bt.setBackgroundColor(context.getResources().getColor(R.color.mainPurple));
+                            e.printStackTrace();
+                        }
+                    }
+                });
+
             }
         });
     }

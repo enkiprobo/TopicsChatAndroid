@@ -33,12 +33,12 @@
         <EditText
             android:id="@+id/et_chatMessage"
             android:layout_toRightOf="@+id/iv_chatTopics"
-            android:layout_toLeftOf="@+id/tv_chatSend"
+            android:layout_toLeftOf="@+id/bt_chatSend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="@string/type_your_message_here_hint"/>
-        <TextView
-            android:id="@+id/tv_chatSend"
+        <Button
+            android:id="@+id/bt_chatSend"
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

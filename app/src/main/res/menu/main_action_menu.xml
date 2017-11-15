@@ -6,13 +6,11 @@
         android:id="@+id/i_setting"
         android:icon="@drawable/ic_settings_black_24dp"
         android:title="@string/open_setting_menu"
-        app:showAsAction="ifRoom|withText" />
+        app:showAsAction="ifRoom|withText"/>
 
     <item
         android:id="@+id/i_createNewGroup"
         android:icon="@drawable/ic_add_black_24dp"
         android:title="@string/create_group_menu"
-        app:showAsAction="ifRoom|withText" />
-
-
+        app:showAsAction="ifRoom|withText"/>
 </menu>

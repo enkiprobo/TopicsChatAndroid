@@ -2,7 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.enkiprobo.topicschat">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name="com.orm.SugarApp"
         android:allowBackup="true"
@@ -11,7 +12,6 @@
         android:roundIcon="@mipmap/ic_launcher_topics_chat"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-
         <meta-data
             android:name="DATABASE"
             android:value="topicschat.db" />
@@ -39,9 +39,7 @@
             android:name=".LoginActivity"
             android:configChanges="orientation"
             android:launchMode="singleInstance"
-            android:screenOrientation="portrait">
-
-        </activity>
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".RegistrationActivity"
             android:configChanges="orientation"
@@ -61,8 +59,8 @@
         <activity
             android:name=".UserMainActivity"
             android:configChanges="orientation"
-            android:launchMode="singleInstance"
             android:label=""
+            android:launchMode="singleInstance"
             android:screenOrientation="portrait" />
         <activity
             android:name=".NewGroupActivity"
@@ -77,12 +75,21 @@
         <activity
             android:name=".GroupChatActivity"
             android:configChanges="orientation"
+            android:launchMode="singleInstance"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".UserMainActivity" />
         </activity>
-
+        <activity
+            android:name=".InviteUserActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
+            android:label="">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".GroupChatActivity" />
+        </activity>
     </application>
 
 </manifest>
