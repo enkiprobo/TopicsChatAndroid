@@ -269,4 +269,77 @@ public class NetworkUtilTC {
         });
     }
 
+    public void createGroup(final Context context, String groupName, String groupImage, String username ){
+        RequestBody requestBody = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart(PARAM_GROUPNAME, groupName)
+                .addFormDataPart(PARAM_GROUPIMAGE, groupImage)
+                .addFormDataPart(PARAM_USERNAME, username)
+                .build();
+
+        final Request request = new Request.Builder()
+                .url(URL_BASE + "creategroup")
+                .method("POST", RequestBody.create(null, new byte[0]))
+                .post(requestBody)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                ((Activity)context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        TextView tv = (TextView) ((Activity) context).findViewById(R.id.tv_errorMessageCreateGroup);
+                        Button bt = (Button) ((Activity) context).findViewById(R.id.bt_createGroup);
+
+                        tv.setText("please try again later");
+                        bt.setEnabled(true);
+                        bt.setBackgroundColor(context.getResources().getColor(R.color.mainPurple));
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Call call,final Response response) throws IOException {
+                ((Activity)context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        TextView tv = (TextView) ((Activity) context).findViewById(R.id.tv_errorMessageCreateGroup);
+                        Button bt = (Button) ((Activity) context).findViewById(R.id.bt_createGroup);
+
+                        try {
+                            JSONObject responseJSON = new JSONObject(response.body().string());
+                            String status = responseJSON.getString("status");
+                            if (!status.equals("OK")){
+                                tv.setText("error while getting group data");
+                                bt.setEnabled(true);
+                                bt.setBackgroundColor(context.getResources().getColor(R.color.mainPurple));
+                            } else {
+                                JSONArray groupListJson = responseJSON.getJSONArray("group_list");
+                                for (int i = 0; i < groupListJson.length(); i++) {
+                                    JSONObject groupJson = groupListJson.getJSONObject(i);
+
+                                    int idGroup = groupJson.getInt("id_group");
+                                    String groupName = groupJson.getString("group_name");
+                                    String groupImage = groupJson.getString("group_image");
+                                    int idGm = groupJson.getInt("id_gm");
+
+                                    UsersGroup group = new UsersGroup(idGroup,idGm,groupName,groupImage,"","00:00",0);
+                                    group.save();
+                                }
+
+                                Intent inten = new Intent(context, UserMainActivity.class);
+                                context.startActivity(inten);
+                                ((Activity) context).finish();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            }
+        });
+    }
 }

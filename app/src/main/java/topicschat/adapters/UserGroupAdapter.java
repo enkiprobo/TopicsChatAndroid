@@ -1,12 +1,14 @@
 package topicschat.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.enkiprobo.topicschat.GroupChatActivity;
 import com.example.enkiprobo.topicschat.R;
 
 import java.util.List;
@@ -18,6 +20,11 @@ import topicschat.sqlitedatamodel.UsersGroup;
  */
 
 public class UserGroupAdapter extends RecyclerView.Adapter<UserGroupAdapter.UserGroupViewHolder> {
+
+    private static final String EXTRA_IDGROUP = "com.example.enkiprobo.topicschat.idgroup";
+    private static final String EXTRA_IDGM = "com.example.enkiprobo.topicschat.idgm";
+    private static final String EXTRA_GROUPNAME = "com.example.enkiprobo.topicschat.groupname";
+    private static final String EXTRA_GROUPPHOTO = "com.example.enkiprobo.topicschat.groupphoto";
 
     private LayoutInflater layoutInflater;
     private Context context;
@@ -52,6 +59,7 @@ public class UserGroupAdapter extends RecyclerView.Adapter<UserGroupAdapter.User
         holder.mtvPreviewMessage.setText(group.getRecentChat());
         holder.mtvLastTime.setText(group.getRecenChatDate());
 
+
     }
 
     @Override
@@ -59,7 +67,7 @@ public class UserGroupAdapter extends RecyclerView.Adapter<UserGroupAdapter.User
         return (int) UsersGroup.count(UsersGroup.class);
     }
 
-    class UserGroupViewHolder extends RecyclerView.ViewHolder {
+    class UserGroupViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         TextView mtvGroupName;
         TextView mtvPreviewMessage;
@@ -77,6 +85,26 @@ public class UserGroupAdapter extends RecyclerView.Adapter<UserGroupAdapter.User
             mtvNotReadCount = (TextView) itemView.findViewById(R.id.tv_notReadCount);
 
             this.adapter = adapter;
+
+            mtvGroupName.setOnClickListener(this);
+            mtvPreviewMessage.setOnClickListener(this);
+            mtvLastTime.setOnClickListener(this);
+            mtvNotReadCount.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            int position = getLayoutPosition();
+
+            UsersGroup group = usersGroupList.get(position);
+
+            Intent inten = new Intent(context, GroupChatActivity.class);
+            inten.putExtra(EXTRA_IDGROUP, group.getIdGroup());
+            inten.putExtra(EXTRA_IDGM, group.getIdGM());
+            inten.putExtra(EXTRA_GROUPNAME, group.getGroupName());
+            inten.putExtra(EXTRA_GROUPPHOTO, group.getGroupPhoto());
+
+            context.startActivity(inten);
         }
     }
 }

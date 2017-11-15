@@ -140,6 +140,15 @@ public class UserMainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        UserGroupAdapter uga = (UserGroupAdapter)mrvUserGroup.getAdapter();
+        uga.setUsersGroupList(UsersGroup.listAll(UsersGroup.class));
+        uga.notifyDataSetChanged();
+    }
+
     public void keHalamanGroup(View view) {
         Intent inten = new Intent(this, GroupChatActivity.class);
 

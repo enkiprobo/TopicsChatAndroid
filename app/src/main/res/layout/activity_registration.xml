@@ -35,7 +35,7 @@
             android:text="@string/registration_login_information_header"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:textColor="#8353E6"/>
+            android:textColor="@color/mainPurple"/>
 
         <EditText
             android:id="@+id/et_registrationUsername"
@@ -82,7 +82,7 @@
             android:text="@string/registration_personal_information_header"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:textColor="#8353E6"/>
+            android:textColor="@color/mainPurple"/>
 
         <EditText
             android:id="@+id/et_registrationFullName"

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clipToPadding="false"
     tools:context="com.example.enkiprobo.topicschat.NewGroupActivity">
 
     <android.support.v7.widget.Toolbar
@@ -25,6 +26,7 @@
         android:layout_marginTop="20sp">
 
         <TextView
+            android:textColor="@color/mainPurple"
             android:textStyle="bold"
             android:textSize="@dimen/header_text_size"
             android:layout_width="match_parent"
@@ -32,24 +34,39 @@
             android:text="@string/create_group_header"/>
 
         <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/tv_createGroupName"
-            android:inputType="textShortMessage"
-            android:hint="@string/group_name_hint"/>
-
-        <EditText
             android:layout_marginTop="10sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/member_s_username_hint"
-            android:id="@+id/et_createMemberUsername"/>
+            android:id="@+id/et_createGroupName"
+            android:inputType="textShortMessage"
+            android:hint="@string/group_name_hint"
+            style="@style/default_text_editor_color"/>
+        <TextView
+            android:layout_marginTop="20sp"
+            android:id="@+id/tv_errorMessageCreateGroup"
+            android:layout_below="@+id/ly_personalInformation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/colorPrimaryDark"
+            android:visibility="gone"
+            android:text="@string/please_wait"/>
+
+        <!--<EditText-->
+            <!--android:layout_marginTop="10sp"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:hint="@string/member_s_username_hint"-->
+            <!--android:id="@+id/et_createMemberUsername"-->
+            <!--style="@style/default_text_editor_color"/>-->
     </LinearLayout>
 
     <Button
+        android:id="@+id/bt_createGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:text="@string/create_group_button"
-        android:onClick="mendaftarkanGroup"/>
+        android:onClick="mendaftarkanGroup"
+        style="@style/default_button_style"/>
 </RelativeLayout>
