@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="176sp">
+
+    <TextView
+        android:layout_marginTop="15sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_navHeaderFullName"
+        android:gravity="center"
+        android:text="Enki Probo Sidhi"
+        android:textStyle="bold"
+        android:textSize="@dimen/header_text_size"/>
+    <LinearLayout
+        android:layout_marginTop="13sp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="match_parent"
+            android:layout_height="60sp"
+            android:src="@drawable/ic_group_black_24dp"
+            app:civ_border_overlay="true"
+            app:civ_border_width="2sp"/>
+    </LinearLayout>
+
+</LinearLayout>

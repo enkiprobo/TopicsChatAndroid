@@ -30,6 +30,10 @@ public class UserGroupAdapter extends RecyclerView.Adapter<UserGroupAdapter.User
         this.usersGroupList = usersGroupList;
     }
 
+    public void setUsersGroupList(List<UsersGroup> usersGroupList){
+        this.usersGroupList = usersGroupList;
+    }
+
     @Override
     public UserGroupAdapter.UserGroupViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = layoutInflater.inflate(R.layout.itemlayout_usersgroup, parent, false);

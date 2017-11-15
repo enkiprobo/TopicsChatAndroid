@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -13,6 +14,7 @@ import com.example.enkiprobo.topicschat.R;
 import com.example.enkiprobo.topicschat.RegistrationSuccessActivity;
 import com.example.enkiprobo.topicschat.UserMainActivity;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -25,6 +27,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import topicschat.adapters.UserGroupAdapter;
+import topicschat.sqlitedatamodel.UsersGroup;
 
 /**
  * Created by enkiprobo on 11/14/2017.
@@ -190,6 +194,77 @@ public class NetworkUtilTC {
                     }
                 });
 
+            }
+        });
+    }
+
+    public void getUserGroup(final Context context, String username){
+        RequestBody requestBody = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart(PARAM_USERNAME, username)
+                .build();
+
+        final Request request = new Request.Builder()
+                .url(URL_BASE + "getusergroup")
+                .method("POST", RequestBody.create(null, new byte[0]))
+                .post(requestBody)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                ((Activity)context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        TextView tv = (TextView) ((Activity) context).findViewById(R.id.tv_infoMain);
+
+                        tv.setText(context.getResources().getString(R.string.no_group));
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Call call, final Response response) throws IOException {
+                ((Activity)context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        TextView tv = (TextView) ((Activity) context).findViewById(R.id.tv_infoMain);
+                        RecyclerView rv = (RecyclerView) ((Activity) context).findViewById(R.id.rv_userGroup);
+
+                        try {
+                            JSONObject responseJSON = new JSONObject(response.body().string());
+                            String status = responseJSON.getString("status");
+                            if (!status.equals("OK")){
+                                tv.setText("error while getting group data");
+                            } else {
+                                JSONArray groupListJson = responseJSON.getJSONArray("group_list");
+                                for (int i = 0; i < groupListJson.length(); i++) {
+                                    JSONObject groupJson = groupListJson.getJSONObject(i);
+
+                                    int idGroup = groupJson.getInt("id_group");
+                                    String groupName = groupJson.getString("group_name");
+                                    String groupImage = groupJson.getString("group_image");
+                                    int idGm = groupJson.getInt("id_gm");
+
+                                    UsersGroup group = new UsersGroup(idGroup,idGm,groupName,groupImage,"","00:00",0);
+                                    group.save();
+                                }
+                                UserGroupAdapter adapter = (UserGroupAdapter) rv.getAdapter();
+
+                                adapter.setUsersGroupList(UsersGroup.listAll(UsersGroup.class));
+                                adapter.notifyDataSetChanged();
+
+                                tv.setVisibility(View.GONE);
+                                rv.setVisibility(View.VISIBLE);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                });
             }
         });
     }
