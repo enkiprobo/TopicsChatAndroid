@@ -9,18 +9,18 @@ import com.orm.SugarRecord;
 public class GroupsTopic extends SugarRecord {
     private int idTopic;
     private String topicName;
-    private UsersGroup group;
+    private int idGroup;
     private int countNotRead;
 
     public GroupsTopic(){
 
     }
 
-    public GroupsTopic(int idTopic, String topicName, UsersGroup group, int countNotRead) {
+    public GroupsTopic(int idTopic, String topicName, int idGroup) {
         this.idTopic = idTopic;
         this.topicName = topicName;
-        this.group = group;
-        this.countNotRead = countNotRead;
+        this.idGroup = idGroup;
+        this.countNotRead = 0;
     }
 
     public int getIdTopic() {
@@ -39,12 +39,12 @@ public class GroupsTopic extends SugarRecord {
         this.topicName = topicName;
     }
 
-    public UsersGroup getGroup() {
-        return group;
+    public int getIdGroup() {
+        return idGroup;
     }
 
-    public void setGroup(UsersGroup group) {
-        this.group = group;
+    public void setIdGroup(int idGroup) {
+        this.idGroup = idGroup;
     }
 
     public int getCountNotRead() {

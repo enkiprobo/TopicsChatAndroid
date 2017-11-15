@@ -25,7 +25,7 @@ public class SplashActivity extends AppCompatActivity {
                     SplashActivity.this.startActivity(new Intent(SplashActivity.this, LoginActivity.class));
                     SplashActivity.this.finish();
                 }
-            }, 3000);
+            }, 1000);
         }else{
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -33,7 +33,7 @@ public class SplashActivity extends AppCompatActivity {
                     SplashActivity.this.startActivity(new Intent(SplashActivity.this, UserMainActivity.class));
                     SplashActivity.this.finish();
                 }
-            }, 3000);
+            }, 1000);
         }
 
     }

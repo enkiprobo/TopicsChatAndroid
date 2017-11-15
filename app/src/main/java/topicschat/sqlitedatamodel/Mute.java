@@ -7,21 +7,22 @@ import com.orm.SugarRecord;
  */
 
 public class Mute extends SugarRecord {
-    private GroupsTopic topic;
+    private int idTopic;
 
     public Mute(){
 
     }
 
-    public Mute(GroupsTopic topic) {
-        this.topic = topic;
+    public int getIdTopic() {
+        return idTopic;
     }
 
-    public GroupsTopic getTopic() {
-        return topic;
+    public void setIdTopic(int idTopic) {
+        this.idTopic = idTopic;
     }
 
-    public void setTopic(GroupsTopic topic) {
-        this.topic = topic;
+    public Mute(int idTopic) {
+
+        this.idTopic = idTopic;
     }
 }

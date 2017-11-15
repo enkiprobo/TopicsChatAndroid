@@ -22,19 +22,27 @@
         android:iconifiedByDefault="false"
         android:queryHint="search" />
 
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/rv_userGroup"
+        android:visibility="gone">
+    </android.support.v7.widget.RecyclerView>
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/no_group"
+        android:layout_height="match_parent"
+        android:text="Wait..."
         android:gravity="center"
         android:textStyle="bold"
-        android:textSize="30sp"/>
+        android:textSize="30sp"
+        android:textColor="@color/mainPurple"
+        android:id="@+id/tv_infoMain"/>
 
     <!-- hapus ini nanti -->
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="coba ke halaman group"
-        android:onClick="keHalamanGroup" />
+    <!--<Button-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="coba ke halaman group"-->
+        <!--android:onClick="keHalamanGroup" />-->
 
 </LinearLayout>

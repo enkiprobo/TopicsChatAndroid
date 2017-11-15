@@ -40,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
 
         String username = metUsername.getText().toString();
         String password = metPassword.getText().toString();
-        if ( username.length()==0 || password.equals(0)){
+        if (username.length() == 0 || password.length() == 0) {
             mtvErrorLogin.setVisibility(View.VISIBLE);
             mtvErrorLogin.setText("please fill all form");
 

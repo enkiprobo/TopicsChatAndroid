@@ -10,20 +10,12 @@ public class ChatDetail extends SugarRecord {
 
     private int idChat;
     private String message;
-    private GroupsTopic topic;
+    private int idTopic;
     private boolean pinned;
     private String dateCreated;
 
     public ChatDetail() {
 
-    }
-
-    public ChatDetail(int idChat, String message, GroupsTopic topic, boolean pinned, String dateCreated) {
-        this.idChat = idChat;
-        this.message = message;
-        this.topic = topic;
-        this.pinned = pinned;
-        this.dateCreated = dateCreated;
     }
 
     public int getIdChat() {
@@ -42,12 +34,12 @@ public class ChatDetail extends SugarRecord {
         this.message = message;
     }
 
-    public GroupsTopic getTopic() {
-        return topic;
+    public int getIdTopic() {
+        return idTopic;
     }
 
-    public void setTopic(GroupsTopic topic) {
-        this.topic = topic;
+    public void setIdTopic(int idTopic) {
+        this.idTopic = idTopic;
     }
 
     public boolean isPinned() {
@@ -63,6 +55,15 @@ public class ChatDetail extends SugarRecord {
     }
 
     public void setDateCreated(String dateCreated) {
+        this.dateCreated = dateCreated;
+    }
+
+    public ChatDetail(int idChat, String message, int idTopic, boolean pinned, String dateCreated) {
+
+        this.idChat = idChat;
+        this.message = message;
+        this.idTopic = idTopic;
+        this.pinned = pinned;
         this.dateCreated = dateCreated;
     }
 }

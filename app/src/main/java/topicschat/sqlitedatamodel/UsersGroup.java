@@ -11,15 +11,21 @@ public class UsersGroup extends SugarRecord {
     private int idGM;
     private String groupName;
     private String groupPhoto;
+    private String recentChat;
+    private String recenChatDate;
+    private int countNotReadAll;
 
-    public UsersGroup(){
-    }
-
-    public UsersGroup(int idGroup, int idGM, String groupName, String groupPhoto) {
+    public UsersGroup(int idGroup, int idGM, String groupName, String groupPhoto, String recentChat, String recenChatDate, int countNotReadAll) {
         this.idGroup = idGroup;
         this.idGM = idGM;
         this.groupName = groupName;
         this.groupPhoto = groupPhoto;
+        this.recentChat = recentChat;
+        this.recenChatDate = recenChatDate;
+        this.countNotReadAll = countNotReadAll;
+    }
+
+    public UsersGroup(){
     }
 
     public int getIdGroup() {
@@ -52,5 +58,29 @@ public class UsersGroup extends SugarRecord {
 
     public void setGroupPhoto(String groupPhoto) {
         this.groupPhoto = groupPhoto;
+    }
+
+    public String getRecentChat() {
+        return recentChat;
+    }
+
+    public void setRecentChat(String recentChat) {
+        this.recentChat = recentChat;
+    }
+
+    public String getRecenChatDate() {
+        return recenChatDate;
+    }
+
+    public void setRecenChatDate(String recenChatDate) {
+        this.recenChatDate = recenChatDate;
+    }
+
+    public int getCountNotReadAll() {
+        return countNotReadAll;
+    }
+
+    public void setCountNotReadAll(int countNotReadAll) {
+        this.countNotReadAll = countNotReadAll;
     }
 }
