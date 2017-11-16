@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import topicschat.helper.DRYMethod;
 import topicschat.networkutil.NetworkUtilTC;
 
 public class RegistrationActivity extends AppCompatActivity {
@@ -50,8 +51,7 @@ public class RegistrationActivity extends AppCompatActivity {
         if (username.length() == 0 || password.length() == 0 || passwordConfirm.length() == 0 || fullname.length() == 0){
             mtvError.setText("form must not empty");
             mtvError.setVisibility(View.VISIBLE);
-            btRegister.setEnabled(true);
-            btRegister.setBackgroundColor(getResources().getColor(R.color.mainPurple));
+            DRYMethod.buttonToRiple(btRegister);
             Log.d("REGISTRATION", "cek1");
         }else if (password.equals(passwordConfirm)){
             Log.d("REGISTRATION", "cek2");
@@ -62,8 +62,7 @@ public class RegistrationActivity extends AppCompatActivity {
             Log.d("REGISTRATION", "cek3");
             mtvError.setText("password didn't match");
             mtvError.setVisibility(View.VISIBLE);
-            btRegister.setEnabled(true);
-            btRegister.setBackgroundColor(getResources().getColor(R.color.mainPurple));
+            DRYMethod.buttonToRiple(btRegister);
         }
 
 

@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import topicschat.helper.DRYMethod;
 import topicschat.networkutil.NetworkUtilTC;
 
 public class LoginActivity extends AppCompatActivity {
@@ -35,8 +36,7 @@ public class LoginActivity extends AppCompatActivity {
 //        finish();
 
         mtvErrorLogin.setVisibility(View.GONE);
-        mbtLogin.setEnabled(false);
-        mbtLogin.setBackgroundColor(getResources().getColor(R.color.black_overlay));
+        DRYMethod.buttonClicked(mbtLogin);
 
         String username = metUsername.getText().toString();
         String password = metPassword.getText().toString();
@@ -44,8 +44,7 @@ public class LoginActivity extends AppCompatActivity {
             mtvErrorLogin.setVisibility(View.VISIBLE);
             mtvErrorLogin.setText("please fill all form");
 
-            mbtLogin.setEnabled(true);
-            mbtLogin.setBackgroundColor(getResources().getColor(R.color.mainPurple));
+            DRYMethod.buttonToRiple(mbtLogin);
         } else {
             NetworkUtilTC networkUtilTC = new NetworkUtilTC();
             networkUtilTC.Login(this, username, password);
@@ -56,5 +55,11 @@ public class LoginActivity extends AppCompatActivity {
         Intent inten = new Intent(this, RegistrationActivity.class);
 
         startActivity(inten);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mtvErrorLogin.setVisibility(View.GONE);
     }
 }

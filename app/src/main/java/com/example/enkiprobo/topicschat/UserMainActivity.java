@@ -23,6 +23,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import topicschat.adapters.UserGroupAdapter;
+import topicschat.helper.TPConstant;
 import topicschat.networkutil.NetworkUtilTC;
 import topicschat.sqlitedatamodel.ChatDetail;
 import topicschat.sqlitedatamodel.GroupsTopic;
@@ -37,17 +38,32 @@ public class UserMainActivity extends AppCompatActivity {
     private TextView mtvInfoMain;
     private List<UsersGroup> usersGroupList;
     private SharedPreferences mPreference;
+    private TextView mName;
+
+    private String userUsername;
+    private String userFullname;
+    private String userProfileImage;
+    private String userBirthDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_main_drawer);
 
-        // drawer
+        mPreference = getSharedPreferences(TPConstant.PREFERENCED_FILE_NAME, MODE_PRIVATE);
         mdlUserGroup = (DrawerLayout) findViewById(R.id.dl_usersGroup);
+        mtvInfoMain = (TextView) findViewById(R.id.tv_infoMain);
+        mrvUserGroup = (RecyclerView) findViewById(R.id.rv_userGroup);
+        mnvUserGroup = (NavigationView) findViewById(R.id.nv_usersGroup);
+
+        userFullname = mPreference.getString(TPConstant.PREFERENCED_FULLNAME, "");
+        userUsername = mPreference.getString(TPConstant.PREFERENCED_USERNAME, "");
+        userBirthDate = mPreference.getString(TPConstant.PREFERENCED_USERBIRTH, "");
+        userProfileImage = mPreference.getString(TPConstant.PREFERENCED_USERIMAGE, "");
+
         // resizing logo
-        BitmapDrawable logoOri = (BitmapDrawable) getResources().getDrawable(R.drawable.topics_chat_2xxxhdpi);
-        Bitmap logoBitResize = Bitmap.createScaledBitmap(logoOri.getBitmap(), 450, 100, false);
+        BitmapDrawable logoOri = (BitmapDrawable) getResources().getDrawable(R.drawable.logoextend);
+        Bitmap logoBitResize = Bitmap.createScaledBitmap(logoOri.getBitmap(), 350, 100, false);
         Drawable logoResize = new BitmapDrawable(getResources(), logoBitResize);
 
         // set app bar
@@ -61,30 +77,26 @@ public class UserMainActivity extends AppCompatActivity {
 //        UsersGroup gr = new UsersGroup(1, 1, "Naruto", "kosong", "hai ganteng...", "00:00", 15);
 //        gr.save();
 //        //==================
-        mtvInfoMain = (TextView) findViewById(R.id.tv_infoMain);
-        mrvUserGroup = (RecyclerView) findViewById(R.id.rv_userGroup);
-        usersGroupList = UsersGroup.listAll(UsersGroup.class);
 
-        mPreference = getSharedPreferences(NetworkUtilTC.PREFERENCED_NAME, MODE_PRIVATE);
+
+        // get group
+        usersGroupList = UsersGroup.listAll(UsersGroup.class);
         if (usersGroupList.size() < 1) {
-            mtvInfoMain.setText(getResources().getString(R.string.no_group));
             new NetworkUtilTC().getUserGroup(this, mPreference.getString("username", ""));
         } else {
             Log.d("USERMAIN", "jumlah ," + usersGroupList.size());
             mtvInfoMain.setVisibility(View.GONE);
             mrvUserGroup.setVisibility(View.VISIBLE);
         }
+
         UserGroupAdapter adapter = new UserGroupAdapter(this, usersGroupList);
         mrvUserGroup.setAdapter(adapter);
         mrvUserGroup.setLayoutManager(new LinearLayoutManager(this));
 
-
         // untuk logout
-        mnvUserGroup = (NavigationView) findViewById(R.id.nv_usersGroup);
         mnvUserGroup.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
                 switch (item.getItemId()){
                     case R.id.i_navLogout:
                         UserMainActivity.this.runOnUiThread(new Runnable() {
@@ -111,6 +123,8 @@ public class UserMainActivity extends AppCompatActivity {
                 }
             }
         });
+        mName = (TextView) mnvUserGroup.getHeaderView(0).findViewById(R.id.tv_navHeaderFullName);
+        mName.setText(userFullname);
     }
 
     @Override

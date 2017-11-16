@@ -25,8 +25,8 @@ public class NewGroupActivity extends AppCompatActivity {
         setContentView(R.layout.activity_new_group);
 
         // resizing logo
-        BitmapDrawable logoOri = (BitmapDrawable) getResources().getDrawable(R.drawable.topics_chat_2xxxhdpi);
-        Bitmap logoBitResize = Bitmap.createScaledBitmap(logoOri.getBitmap(), 450,100, false);
+        BitmapDrawable logoOri = (BitmapDrawable) getResources().getDrawable(R.drawable.logoextend);
+        Bitmap logoBitResize = Bitmap.createScaledBitmap(logoOri.getBitmap(), 350,100, false);
         Drawable logoResize = new BitmapDrawable(getResources(), logoBitResize);
 
         Toolbar mTBCG = (Toolbar) findViewById(R.id.tb_createGroup);
