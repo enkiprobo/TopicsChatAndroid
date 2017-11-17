@@ -730,4 +730,41 @@ public class NetworkUtilTC {
             }
         });
     }
+    public void pinChat (final Context context, boolean pin, final int idGCD){
+        RequestBody requestBody = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart(TPConstant.PARAM_PIN, pin+"")
+                .addFormDataPart(TPConstant.PARAM_IDGCD, idGCD+"")
+                .build();
+
+        final Request request = new Request.Builder()
+                .url(URL_BASE + "pinchat")
+                .method("POST", RequestBody.create(null, new byte[0]))
+                .post(requestBody)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    JSONObject responseJson = new JSONObject(response.body().string());
+
+                    String status = responseJson.getString("status");
+                    if (status.equals("OK")){
+                        ChatDetail chatDetail = ChatDetail.find(ChatDetail.class, "id_chat = ?", idGCD+"").get(0);
+                        chatDetail.setPinned(true);
+                        chatDetail.save();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+    }
 }

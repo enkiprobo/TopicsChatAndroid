@@ -1,10 +1,14 @@
 package topicschat.adapters;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.enkiprobo.topicschat.R;
@@ -65,9 +69,10 @@ public class GroupChatAdapter extends RecyclerView.Adapter<GroupChatAdapter.Grou
         return chatDetailList.size();
     }
 
-    class GroupChatViewHolder extends RecyclerView.ViewHolder{
+    class GroupChatViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener{
 
         TextView mtvChatMessage;
+        RelativeLayout mrlChatOne;
 //        CircleImageView mcivUserPhoto;
         GroupChatAdapter adapter;
 
@@ -75,8 +80,52 @@ public class GroupChatAdapter extends RecyclerView.Adapter<GroupChatAdapter.Grou
             super(itemView);
             mtvChatMessage = (TextView) itemView.findViewById(R.id.tv_chatMessageOne);
 //            mcivUserPhoto = (CircleImageView) itemView.findViewById(R.id.civ_userImage);
-
+            mrlChatOne = (RelativeLayout) itemView.findViewById(R.id.rl_chatOne);
             this.adapter = adapter;
+            mrlChatOne.setOnLongClickListener(this);
+
+        }
+
+        @Override
+        public boolean onLongClick(View view) {
+            final int position = getLayoutPosition();
+            final ChatDetail chat = chatDetailList.get(position);
+
+            String title;
+            String message;
+            final boolean pin;
+            String buttonName;
+            if(!chat.isPinned()){
+                title = "Pin Chat";
+                message = "Are you sure you want to pin this message?";
+                pin =true;
+                buttonName="Pin";
+            } else{
+                title = "Unpin Chat";
+                message = "Are you sure you want to unpin this message?";
+                pin=false;
+                buttonName="Unpin";
+            }
+
+            AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+
+            alertDialog.setTitle(title);
+            alertDialog.setMessage(message);
+
+            alertDialog.setButton(buttonName, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    Log.d("PENCETYANGLAMA", "yang ke mute");
+
+//                        new NetworkUtilTC().pinChat(context, true, chat.getIdChat());
+                    chat.setPinned(pin);
+                    notifyItemChanged(position);
+                }
+            });
+
+            alertDialog.show();
+
+            return true;
         }
     }
 }
