@@ -20,6 +20,55 @@ public class ChatDetail extends SugarRecord {
     private boolean pinned;
     private String dateCreated;
 
+    private String userUsername;
+    private String userUserImage;
+    private String userIdUser;
+    private String userBirthDate;
+
+    public ChatDetail(int idChat, String message, int idTopic, boolean pinned, String dateCreated, String userUsername, String userUserImage, String userIdUser, String userBirthDate) {
+        this.idChat = idChat;
+        this.message = message;
+        this.idTopic = idTopic;
+        this.pinned = pinned;
+        this.dateCreated = dateCreated;
+        this.userUsername = userUsername;
+        this.userUserImage = userUserImage;
+        this.userIdUser = userIdUser;
+        this.userBirthDate = userBirthDate;
+    }
+
+    public String getUserUsername() {
+        return userUsername;
+    }
+
+    public void setUserUsername(String userUsername) {
+        this.userUsername = userUsername;
+    }
+
+    public String getUserUserImage() {
+        return userUserImage;
+    }
+
+    public void setUserUserImage(String userUserImage) {
+        this.userUserImage = userUserImage;
+    }
+
+    public String getUserIdUser() {
+        return userIdUser;
+    }
+
+    public void setUserIdUser(String userIdUser) {
+        this.userIdUser = userIdUser;
+    }
+
+    public String getUserBirthDate() {
+        return userBirthDate;
+    }
+
+    public void setUserBirthDate(String userBirthDate) {
+        this.userBirthDate = userBirthDate;
+    }
+
     public ChatDetail() {
 
     }
@@ -73,7 +122,7 @@ public class ChatDetail extends SugarRecord {
         this.dateCreated = dateCreated;
     }
 
-    public static List<ChatDetail> getGroupsChat(Context context, int idGroup){
+    public static List<ChatDetail> getGroupsChat(Context context, int idGroup, String groupName){
         List<GroupsTopic> groupsTopicList = GroupsTopic.find(GroupsTopic.class, "id_group = ?", idGroup+"");
         String whereClause = "id_topic = -1";
         if (groupsTopicList.size() > 0) {

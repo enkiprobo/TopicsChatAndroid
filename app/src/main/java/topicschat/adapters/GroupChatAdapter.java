@@ -62,6 +62,7 @@ public class GroupChatAdapter extends RecyclerView.Adapter<GroupChatAdapter.Grou
         ChatDetail chat = chatDetailList.get(position);
 
         holder.mtvChatMessage.setText(chat.getMessage());
+        holder.mtvName.setText(chat.getUserIdUser());
     }
 
     @Override
@@ -75,12 +76,14 @@ public class GroupChatAdapter extends RecyclerView.Adapter<GroupChatAdapter.Grou
         RelativeLayout mrlChatOne;
 //        CircleImageView mcivUserPhoto;
         GroupChatAdapter adapter;
+        TextView mtvName;
 
         public GroupChatViewHolder(View itemView, GroupChatAdapter adapter) {
             super(itemView);
             mtvChatMessage = (TextView) itemView.findViewById(R.id.tv_chatMessageOne);
 //            mcivUserPhoto = (CircleImageView) itemView.findViewById(R.id.civ_userImage);
             mrlChatOne = (RelativeLayout) itemView.findViewById(R.id.rl_chatOne);
+            mtvName = (TextView) itemView.findViewById(R.id.tv_chatUserName);
             this.adapter = adapter;
             mrlChatOne.setOnLongClickListener(this);
 
@@ -123,7 +126,7 @@ public class GroupChatAdapter extends RecyclerView.Adapter<GroupChatAdapter.Grou
                 }
             });
 
-            alertDialog.show();
+
 
             return true;
         }

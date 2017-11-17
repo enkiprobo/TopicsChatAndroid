@@ -39,6 +39,7 @@ public class InviteUserActivity extends AppCompatActivity {
         Drawable logoResize = new BitmapDrawable(getResources(), logoBitResize);
 
         mtbInviteUser.setLogo(logoResize);
+        mtbInviteUser.setBackgroundColor(getResources().getColor(R.color.mainPurple));
         setSupportActionBar(mtbInviteUser);
 
         Log.d("MAJU", "apakah sudah sampai sini?");

@@ -35,10 +35,11 @@ public class NewGroupActivity extends AppCompatActivity {
         Bitmap logoBitResize = Bitmap.createScaledBitmap(logoOri.getBitmap(), 350,100, false);
         Drawable logoResize = new BitmapDrawable(getResources(), logoBitResize);
 
-
+        mTBCG.setBackgroundColor(getResources().getColor(R.color.mainPurple));
         mTBCG.setLogo(logoResize);
         setSupportActionBar(mTBCG);
     }
+
 
     public void mendaftarkanGroup(View view) {
 //        Intent inten = new Intent(this, UserMainActivity.class);

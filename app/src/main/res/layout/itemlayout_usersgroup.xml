@@ -1,94 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rl_userGroup"
     android:layout_width="fill_parent"
     android:layout_height="60sp"
-    android:paddingBottom="5sp"
-    android:paddingTop="5sp"
-    android:clipToPadding="false"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/riple_user_group"
+    android:background="?attr/selectableItemBackground"
     android:clickable="true"
+    android:clipToPadding="false"
     android:focusable="true"
-    android:id="@+id/rl_userGroup">
+    android:paddingBottom="5sp"
+    android:paddingTop="5sp">
 
     <LinearLayout
-        android:clickable="false"
-        android:focusable="false"
         android:id="@+id/iv_groupImage"
         android:layout_width="80sp"
         android:layout_height="50sp"
-        android:padding="5sp"
-        android:layout_alignParentLeft="true" >
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:clickable="false"
-            android:focusable="false"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/iv_groupImageReal"
-            android:src="@mipmap/ic_launcher_topic"
-            android:layout_alignParentLeft="true"/>
-    </LinearLayout>
-    <TextView
+        android:layout_alignParentLeft="true"
         android:clickable="false"
         android:focusable="false"
+        android:padding="5sp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/iv_groupImageReal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:clickable="false"
+            android:focusable="false"
+            android:src="@mipmap/ic_launcher_topic" />
+    </LinearLayout>
+
+    <TextView
         android:id="@+id/tv_groupName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/tv_lastTime"
+        android:layout_toLeftOf="@+id/tv_notReadCount"
         android:layout_toRightOf="@+id/iv_groupImage"
+        android:clickable="false"
+        android:focusable="false"
         android:paddingTop="5sp"
         android:text="Group Name"
         android:textColor="@color/mainPurple"
-        android:textSize="15sp"/>
+        android:textSize="15sp" />
 
     <TextView
-        android:clickable="false"
-        android:focusable="false"
-        android:text="contoh preview pesan yang kemungkinanpanjang banget "
+        android:id="@+id/tv_previewMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_groupName"
         android:layout_toLeftOf="@+id/tv_notReadCount"
         android:layout_toRightOf="@+id/iv_groupImage"
-        android:textSize="8sp"
-        android:id="@+id/tv_previewMessage"/>
-
-    <TextView
         android:clickable="false"
         android:focusable="false"
-        android:id="@+id/tv_lastTime"
-        android:layout_width="50sp"
-        android:layout_height="wrap_content"
+        android:text="contoh preview pesan yang kemungkinanpanjang banget "
+        android:textSize="8sp" />
+
+    <!--<TextView-->
+    <!--android:clickable="false"-->
+    <!--android:focusable="false"-->
+    <!--android:id="@+id/tv_lastTime"-->
+    <!--android:layout_width="50sp"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignParentRight="true"-->
+    <!--android:layout_alignParentTop="true"-->
+    <!--android:gravity="center"-->
+    <!--android:padding="5sp"-->
+    <!--android:text=""-->
+    <!--android:textColor="@color/mainPurple"-->
+    <!--android:textSize="12sp" />-->
+
+    <TextView
+        android:id="@+id/tv_notReadCount"
+        android:layout_width="20sp"
+        android:layout_height="20sp"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:gravity="center"
-        android:padding="5sp"
-        android:text="00:00"
-        android:textColor="@color/mainPurple"
-        android:textSize="12sp" />
-
-    <TextView
+        android:background="@drawable/background_oval_shape"
         android:clickable="false"
         android:focusable="false"
-        android:id="@+id/tv_notReadCount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/tv_lastTime"
-        android:layout_toRightOf="@+id/tv_groupName"
         android:gravity="center"
+        android:layout_marginRight="10sp"
+        android:layout_marginTop="10sp"
+        android:textColor="@color/mainWhite"
         android:text="1" />
 
     <View
-        android:clickable="false"
-        android:focusable="false"
-        android:layout_toRightOf="@+id/iv_groupImage"
-        android:layout_alignParentBottom="true"
         android:layout_width="fill_parent"
         android:layout_height="1sp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerVertical="true"
         android:layout_marginBottom="-5sp"
+        android:layout_toRightOf="@+id/iv_groupImage"
         android:background="#808353E6"
-        android:layout_centerVertical="true"/>
+        android:clickable="false"
+        android:focusable="false" />
 
 </RelativeLayout>

@@ -2,6 +2,7 @@ package com.example.enkiprobo.topicschat;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -51,14 +52,18 @@ public class GroupChatActivity extends AppCompatActivity {
     private GroupsTopic chatTopic;
     private String tempTopicName = "";
 
+    public GroupsTopic getGroupTopic(){
+        return chatTopic;
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_chat);
 
         inten = getIntent();
+        Log.d("terakhir", "coba disini 1");
         updateGroupInfo();
-
+        Log.d("terakhir", "coba disini 2");
         mtbGroupChat = (Toolbar) findViewById(R.id.tb_chatGroup);
         mivChatTopic = (ImageView) findViewById(R.id.iv_chatTopics);
         metChatMessage = (EditText) findViewById(R.id.et_chatMessage);
@@ -68,22 +73,25 @@ public class GroupChatActivity extends AppCompatActivity {
         mlyCreateTopic = (LinearLayout) findViewById(R.id.ly_createTopic);
         mtvCreateTopic = (TextView) findViewById(R.id.tv_addNewTopic);
 
+        Log.d("terakhir", "coba disini 3");
+        mtbGroupChat.setBackgroundColor(getResources().getColor(R.color.mainPurple));
         setSupportActionBar(mtbGroupChat);
         Log.d("MENCARIERROR", "DIDIDIDI?");
-        chatDetailList = ChatDetail.getGroupsChat(this, groupIDGroup);
+        chatDetailList = ChatDetail.getGroupsChat(this, groupIDGroup, groupName);
 
+        Log.d("terakhir", "coba disini 4");
         GroupChatAdapter adapterGC = new GroupChatAdapter(this, chatDetailList);
         mrvChatList.setAdapter(adapterGC);
         mrvChatList.setLayoutManager(new LinearLayoutManager(this));
         mrvChatList.scrollToPosition(chatDetailList.size()-1);
 
-        Log.d("MENCARIERROR", "DISINDANG?");
+        Log.d("MENCARIERROR", groupIDGroup+"");
         groupsTopicList = GroupsTopic.getGroupTopic(groupIDGroup);
-
+        Log.d("terakhir", groupsTopicList+"");
         GroupTopicAdapter adapterGA = new GroupTopicAdapter(this, groupsTopicList);
         mrvTopicList.setAdapter(adapterGA);
         mrvTopicList.setLayoutManager(new LinearLayoutManager(this,  LinearLayoutManager.HORIZONTAL, false));
-
+        Log.d("terakhir", "coba disini 6");
         metChatMessage.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -136,9 +144,12 @@ public class GroupChatActivity extends AppCompatActivity {
             }
         });
 
+        Log.d("terakhir", "coba disini 8");
         Log.d("MENCARIERROR", "DISINI?");
+        updateGroupInfo();
         updateTitle();
         WebsocketUtilTC.setChatLiveContext(this);
+        Log.d("terakhir", "coba disini 9");
     }
 
     @Override
@@ -166,17 +177,17 @@ public class GroupChatActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        GroupChatAdapter adapterGC = (GroupChatAdapter) mrvChatList.getAdapter();
-        adapterGC.setChatDetailList(ChatDetail.getGroupsChat(this, groupIDGroup));
-
-        updateGroupInfo();
-        updateTitle();
-        WebsocketUtilTC.setChatLiveContext(this);
-    }
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        Log.d("terakhir", "coba disini");
+//        GroupChatAdapter adapterGC = (GroupChatAdapter) mrvChatList.getAdapter();
+//        adapterGC.setChatDetailList(ChatDetail.getGroupsChat(this, groupIDGroup, groupName));
+//
+//        updateGroupInfo();
+//        updateTitle();
+//        WebsocketUtilTC.setChatLiveContext(this);
+//    }
 
     public void setChatTopic(GroupsTopic chat){
         this.chatTopic = chat;
@@ -188,22 +199,43 @@ public class GroupChatActivity extends AppCompatActivity {
         this.groupName = inten.getStringExtra(TPConstant.EXTRA_GROUPNAME);
         Log.d("MENCARIERROR", "ADAKAH?");
         groupsTopicList = GroupsTopic.find(GroupsTopic.class, "id_group = ?", groupIDGroup+"");
+        Log.d("terakhir", "ini");
         for (GroupsTopic topic: groupsTopicList){
+            Log.d("terakhir", "coba disini hmmm");
             if (topic.getTopicName().equals("All")){
+                Log.d("terakhir", "coba disini nyampeee");
                 chatTopic = topic;
                 break;
             }
         }
-
     }
-    public void updateTitle(){
-        String groupNameShow = groupName.length()>17 ? groupName.substring(0,14)+"..." : String.format("%1$-" + 17 + "s", groupName);
-        String chatTopicShow = chatTopic.getTopicName().length()>7 ? chatTopic.getTopicName().substring(0,3)+"..." : String.format("%1$-" + 7 + "s", chatTopic.getTopicName());
-        mtbGroupChat.setTitle(groupNameShow+" - "+chatTopicShow);
 
-        GroupChatAdapter adapterGC =(GroupChatAdapter) mrvChatList.getAdapter();
-        chatDetailList = ChatDetail.getGroupsChatFromTopic(this, chatTopic.getIdTopic());
-        adapterGC.setChatDetailList(chatDetailList);
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d("AKTIVITAS", "ADA KESINI GA?");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d("AKTIVITAS", "hancur");
+    }
+
+    public void updateTitle(){
+
+        if (chatTopic!= null){
+            String groupNameShow = groupName.length()>17 ? groupName.substring(0,14)+"..." : String.format("%1$-" + 17 + "s", groupName);
+            Log.d("terakhir", "coba disini sebelum 9");
+            String chatTopicShow = chatTopic.getTopicName().length()>7 ? chatTopic.getTopicName().substring(0,3)+"..." : String.format("%1$-" + 7 + "s", chatTopic.getTopicName());
+            ActionBar tb = this.getSupportActionBar();
+            tb.setTitle(groupNameShow+" | "+chatTopicShow);
+
+            GroupChatAdapter adapterGC =(GroupChatAdapter) mrvChatList.getAdapter();
+            chatDetailList = ChatDetail.getGroupsChatFromTopic(this, chatTopic.getIdTopic());
+            adapterGC.setChatDetailList(chatDetailList);
+        }
+
     }
     public void kirimPesan(View view) {
         String message = metChatMessage.getText().toString();

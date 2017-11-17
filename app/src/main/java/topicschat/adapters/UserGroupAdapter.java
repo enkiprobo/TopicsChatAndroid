@@ -54,12 +54,12 @@ public class UserGroupAdapter extends RecyclerView.Adapter<UserGroupAdapter.User
     public void onBindViewHolder(UserGroupAdapter.UserGroupViewHolder holder, int position) {
         UsersGroup group = usersGroupList.get(position);
 
-        String notReadCount = group.getCountNotReadAll()>0 ? group.getCountNotReadAll()+"" : "";
+        String notReadCount = group.getCountNotReadAll()+"";
 
         holder.mtvNotReadCount.setText(notReadCount);
         holder.mtvGroupName.setText(group.getGroupName());
         holder.mtvPreviewMessage.setText(group.getRecentChat());
-        holder.mtvLastTime.setText(group.getRecenChatDate());
+//        holder.mtvLastTime.setText(group.getRecenChatDate());
     }
 
     @Override
@@ -71,7 +71,7 @@ public class UserGroupAdapter extends RecyclerView.Adapter<UserGroupAdapter.User
 
         TextView mtvGroupName;
         TextView mtvPreviewMessage;
-        TextView mtvLastTime;
+//        TextView mtvLastTime;
         TextView mtvNotReadCount;
         RelativeLayout mrlUserGroup;
 
@@ -82,7 +82,7 @@ public class UserGroupAdapter extends RecyclerView.Adapter<UserGroupAdapter.User
 
             mtvGroupName =(TextView) itemView.findViewById(R.id.tv_groupName);
             mtvPreviewMessage = (TextView) itemView.findViewById(R.id.tv_previewMessage);
-            mtvLastTime =(TextView) itemView.findViewById(R.id.tv_lastTime);
+//            mtvLastTime =(TextView) itemView.findViewById(R.id.tv_lastTime);
             mtvNotReadCount = (TextView) itemView.findViewById(R.id.tv_notReadCount);
             mrlUserGroup = (RelativeLayout) itemView.findViewById(R.id.rl_userGroup);
 

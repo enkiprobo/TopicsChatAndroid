@@ -8,6 +8,7 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
+import com.example.enkiprobo.topicschat.GroupChatActivity;
 import com.example.enkiprobo.topicschat.R;
 
 import org.json.JSONException;
@@ -74,12 +75,25 @@ public class WebsocketUtilTC {
                 final int idTopic = chatInfoJson.getInt("id_topic");
                 final List<GroupsTopic> topic = GroupsTopic.find(GroupsTopic.class, "id_topic = ?", idTopic+"");
                 if (topic.size()>0){
+                    final GroupsTopic topic1 = topic.get(0);
+                    topic1.setCountNotRead(topic1.getCountNotRead()+1);
+                    topic1.save();
+
                     final int idGroupChatDetail = chatInfoJson.getInt("id_gcd");
                     final String message = chatInfoJson.getString("chat_message");
                     boolean pin = chatInfoJson.getBoolean("pin");
                     String createdTime = chatInfoJson.getString("created_time");
 
-                    final ChatDetail chatDetail = new ChatDetail(idGroupChatDetail,message,idTopic,pin,createdTime);
+                    JSONObject user = chatInfoJson.getJSONObject("user");
+                    String userUsername = user.getString("username");
+                    String userUserFullname = user.getString("full_name");
+                    String userUserBirth = user.getString("birth_date");
+                    String userUserImage = user.getString("profile_image");
+
+//                        ChatDetail chat = new ChatDetail(idGCD,message,idTopic,pin,createdTime);
+                    final ChatDetail chatDetail = new ChatDetail(idGroupChatDetail,message,idTopic,pin,createdTime,userUsername,userUserImage,userUserFullname,userUserBirth);
+
+//                    final ChatDetail chatDetail = new ChatDetail(idGroupChatDetail,message,idTopic,pin,createdTime);
                     chatDetail.save();
 
                     if (contextHolder != null){
@@ -87,18 +101,39 @@ public class WebsocketUtilTC {
                             @Override
                             public void run() {
                                 RecyclerView recyclerView = (RecyclerView) ((Activity) contextHolder).findViewById(R.id.rv_chatList);
-                                if (recyclerView != null){
-                                    GroupChatAdapter adapter = (GroupChatAdapter) recyclerView.getAdapter();
-                                    List<ChatDetail> chatDetails = ChatDetail.getGroupsChatFromTopic(contextHolder, idTopic);
-                                    adapter.setChatDetailList(chatDetails);
-                                    adapter.notifyDataSetChanged();
+                                RecyclerView recyclerView1 = (RecyclerView) ((Activity) contextHolder).findViewById(R.id.rv_topicList);
+                                GroupsTopic gt = null;
+                                if (contextHolder == contextN) {
+                                    gt = ((GroupChatActivity) contextHolder).getGroupTopic();
+                                }
+                                GroupsTopic topicss = GroupsTopic.find(GroupsTopic.class, "id_topic = ?", idTopic+"").get(0);
+                                if (gt != null){
+                                    if (recyclerView != null && gt.getIdTopic() == chatDetail.getIdTopic()){
+                                        GroupChatAdapter adapter = (GroupChatAdapter) recyclerView.getAdapter();
+                                        List<ChatDetail> chatDetails = ChatDetail.getGroupsChatFromTopic(contextHolder, idTopic);
+                                        adapter.setChatDetailList(chatDetails);
+                                        adapter.notifyDataSetChanged();
 
-                                    recyclerView.scrollToPosition(chatDetails.size()-1);
-                                } else {
+                                        recyclerView.scrollToPosition(chatDetails.size()-1);
+
+                                        GroupTopicAdapter groupTopicAdapter = (GroupTopicAdapter) recyclerView1.getAdapter();
+                                        List<GroupsTopic> groupsTopicList = GroupsTopic.getGroupTopic(topic1.getIdGroup());
+                                        groupTopicAdapter.updateTopicList(groupsTopicList);
+
+                                    }
+                                    else {
+                                        List<Mute> mute = Mute.find(Mute.class, "id_topic = ?", idTopic+"");
+                                        if(mute.size()<1){
+                                            String groupName = UsersGroup.find(UsersGroup.class, "id_group = ?", topic.get(0).getIdGroup()+"").get(0).getGroupName();
+                                            showNotification(groupName, topicss.getTopicName(), message);
+                                        }
+                                    }
+                                }
+                                 else {
                                     List<Mute> mute = Mute.find(Mute.class, "id_topic = ?", idTopic+"");
                                     if(mute.size()<1){
                                         String groupName = UsersGroup.find(UsersGroup.class, "id_group = ?", topic.get(0).getIdGroup()+"").get(0).getGroupName();
-                                        showNotification(groupName, message);
+                                        showNotification(groupName, topicss.getTopicName(), message);
                                     }
                                 }
                             }
@@ -130,7 +165,7 @@ public class WebsocketUtilTC {
 
                             String groupName = UsersGroup.find(UsersGroup.class, "id_group = ?", idGroup+"").get(0).getGroupName();
                             String message = "topic '"+topicName+"' has been created";
-                            showNotification(groupName, message);
+                            showNotification(groupName, topicName, message);
                         }
                     }
                 });
@@ -143,9 +178,9 @@ public class WebsocketUtilTC {
         }
     }
 
-    public static void showNotification(String title, String message){
+    public static void showNotification(String title, String topic, String message){
         Notification notif = new NotificationCompat.Builder(contextHolder)
-                .setContentTitle(title)
+                .setContentTitle(title+" - "+topic)
                 .setContentText(message)
                 .setSmallIcon(R.mipmap.ic_launcher_topic)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)

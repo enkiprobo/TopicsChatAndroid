@@ -69,6 +69,7 @@ public class UserMainActivity extends AppCompatActivity {
 
         // set app bar
         Toolbar mTB = (Toolbar) findViewById(R.id.tb_userMain);
+        mTB.setBackgroundColor(getResources().getColor(R.color.mainPurple));
         mTB.setLogo(logoResize);
 
         setSupportActionBar(mTB);
@@ -168,10 +169,14 @@ public class UserMainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
+        Log.d("Kesini", "hmm");
         UserGroupAdapter uga = (UserGroupAdapter)mrvUserGroup.getAdapter();
         uga.setUsersGroupList(UsersGroup.listAll(UsersGroup.class));
         uga.notifyDataSetChanged();
+        if(UsersGroup.count(UsersGroup.class)>0){
+            mtvInfoMain.setVisibility(View.GONE);
+            mrvUserGroup.setVisibility(View.VISIBLE);
+        }
     }
 
     public void keHalamanGroup(View view) {

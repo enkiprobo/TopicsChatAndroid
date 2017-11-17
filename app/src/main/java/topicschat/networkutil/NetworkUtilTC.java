@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -351,6 +352,7 @@ public class NetworkUtilTC {
 
                                     UsersGroup group = new UsersGroup(idGroup,idGm,groupName,groupImage,"","00:00",0);
                                     group.save();
+                                    Log.d("Kesini", "hoo");
                                 }
 
                                 Intent inten = new Intent(context, UserMainActivity.class);
@@ -474,8 +476,14 @@ public class NetworkUtilTC {
                         String createdTime = chatJson.getString("created_time");
                         String username = chatJson.getString("username");
                         int idGM = chatJson.getInt("id_gm");
+                        JSONObject user = chatJson.getJSONObject("user");
+                        String userUsername = user.getString("username");
+                        String userUserFullname = user.getString("full_name");
+                        String userUserBirth = user.getString("birth_date");
+                        String userUserImage = user.getString("profile_image");
 
-                        ChatDetail chat = new ChatDetail(idGCD,message,idTopic,pin,createdTime);
+//                        ChatDetail chat = new ChatDetail(idGCD,message,idTopic,pin,createdTime);
+                        ChatDetail chat = new ChatDetail(idGCD,message,idTopic,pin,createdTime,userUsername,userUserImage,userUserFullname,userUserBirth);
                         chat.save();
                     }
 
@@ -524,6 +532,7 @@ public class NetworkUtilTC {
                     Log.d("CHATTINGBABARENGAN", "SUDAH DISINI");
                     JSONObject responseJson = new JSONObject(response.body().string());
                     JSONArray topicListJson = responseJson.getJSONArray("topic_list");
+
                     for (int i = 0; i < topicListJson.length(); i++) {
                         JSONObject topicJson = topicListJson.getJSONObject(i);
 
@@ -531,9 +540,28 @@ public class NetworkUtilTC {
                         String topicName = topicJson.getString("topic_name");
                         int idGroup = topicJson.getInt("id_group");
 
-                        GroupsTopic topic = new GroupsTopic(idTopic,topicName,idGroup);
-                        topic.save();
+                        GroupsTopic topics = new GroupsTopic(idTopic,topicName,idGroup);
+                        topics.save();
                     }
+
+                    if (context instanceof GroupChatActivity){
+                        ((Activity)context).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                GroupsTopic topic = GroupsTopic.find(GroupsTopic.class, "id_group = ? AND topic_name = ?", idGroup+"", "All").get(0);
+                                UsersGroup group = UsersGroup.find(UsersGroup.class, "id_group = ?", topic.getIdGroup()+"").get(0);
+
+                                android.support.v7.app.ActionBar tb = ((AppCompatActivity)context).getSupportActionBar();
+
+                                String groupNameShow = group.getGroupName().length()>17 ? group.getGroupName().substring(0,14)+"..." : String.format("%1$-" + 17 + "s", group.getGroupName());
+                                Log.d("terakhir", "coba disini sebelum 9");
+                                String chatTopicShow = topic.getTopicName().length()>7 ? topic.getTopicName().substring(0,3)+"..." : String.format("%1$-" + 7 + "s", topic.getTopicName());
+                                tb.setTitle(groupNameShow+" | "+chatTopicShow);
+                            }
+                        });
+                    }
+
+
                     getChatGroupAll(context, idGroup);
 
                 } catch (JSONException e) {

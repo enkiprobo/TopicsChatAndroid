@@ -39,4 +39,9 @@
         <item name="android:textColorHint">#d3d3d3</item>
         <item name="android:backgroundTint">@color/mainPurple</item>
     </style>
+
+    <style name="MyTheme.ActionBarStyle" parent="@style/ThemeOverlay.AppCompat.ActionBar">
+        <item name="android:textColorPrimary">@color/mainWhite</item>
+        <item name="android:textColorSecondary">@color/mainWhite</item>
+    </style>
 </resources>
