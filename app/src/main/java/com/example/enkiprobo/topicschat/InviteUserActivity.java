@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import topicschat.adapters.UserGroupAdapter;
+import topicschat.helper.DRYMethod;
 import topicschat.networkutil.NetworkUtilTC;
 
 public class InviteUserActivity extends AppCompatActivity {
@@ -27,36 +28,35 @@ public class InviteUserActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_invite_user);
 
+        metUsername = (EditText) findViewById(R.id.et_inviteUsername);
+        mtvInfo = (TextView) findViewById(R.id.tv_errorMessageInviteUser);
+        mbtInvite = (Button) findViewById(R.id.bt_inviteUser);
+        mtbInviteUser = (Toolbar) findViewById(R.id.tb_inviteUser);
+
         // resizing logo
         BitmapDrawable logoOri = (BitmapDrawable) getResources().getDrawable(R.drawable.logoextend);
         Bitmap logoBitResize = Bitmap.createScaledBitmap(logoOri.getBitmap(), 350,100, false);
         Drawable logoResize = new BitmapDrawable(getResources(), logoBitResize);
 
-        mtbInviteUser = (Toolbar) findViewById(R.id.tb_inviteUser);
         mtbInviteUser.setLogo(logoResize);
         setSupportActionBar(mtbInviteUser);
-
-        metUsername = (EditText) findViewById(R.id.et_inviteUsername);
-        mtvInfo = (TextView) findViewById(R.id.tv_errorMessageInviteUser);
-        mbtInvite = (Button) findViewById(R.id.bt_inviteUser);
 
         Log.d("MAJU", "apakah sudah sampai sini?");
     }
 
     public void menginviteUser(View view) {
-        mbtInvite.setEnabled(false);
-        mbtInvite.setBackgroundColor(getResources().getColor(R.color.black_overlay));
+        DRYMethod.buttonClicked(mbtInvite);
 
         mtvInfo.setText(getResources().getString(R.string.please_wait));
         mtvInfo.setVisibility(View.VISIBLE);
+
         String username = metUsername.getText().toString();
         if (username.length() > 0){
             int idGroup = getIntent().getIntExtra(UserGroupAdapter.EXTRA_IDGROUP, -1);
             new NetworkUtilTC().insertMember(this, idGroup, username);
         } else {
             mtvInfo.setText("please fill all form");
-            mbtInvite.setEnabled(true);
-            mbtInvite.setBackgroundColor(getResources().getColor(R.color.mainPurple));
+            DRYMethod.buttonToRiple(mbtInvite);
         }
     }
 }

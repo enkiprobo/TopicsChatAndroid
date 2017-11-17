@@ -20,7 +20,7 @@
     <string name="group_name_hint">group name</string>
     <string name="member_s_username_hint">member\'s username</string>
     <string name="create_group_button">create group</string>
-    <string name="type_your_message_here_hint">Type your message here...</string>
+    <string name="type_your_message_here_hint">type your message here...</string>
     <string name="topics_content_description">topics</string>
     <string name="send_button">Send</string>
 

@@ -31,7 +31,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Wait..."
+        android:text="Please Wait..."
         android:gravity="center"
         android:textStyle="bold"
         android:textSize="30sp"

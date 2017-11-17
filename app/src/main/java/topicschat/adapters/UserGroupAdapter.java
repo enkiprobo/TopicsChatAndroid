@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.enkiprobo.topicschat.GroupChatActivity;
@@ -13,6 +14,7 @@ import com.example.enkiprobo.topicschat.R;
 
 import java.util.List;
 
+import topicschat.helper.TPConstant;
 import topicschat.sqlitedatamodel.UsersGroup;
 
 /**
@@ -58,8 +60,6 @@ public class UserGroupAdapter extends RecyclerView.Adapter<UserGroupAdapter.User
         holder.mtvGroupName.setText(group.getGroupName());
         holder.mtvPreviewMessage.setText(group.getRecentChat());
         holder.mtvLastTime.setText(group.getRecenChatDate());
-
-
     }
 
     @Override
@@ -73,6 +73,7 @@ public class UserGroupAdapter extends RecyclerView.Adapter<UserGroupAdapter.User
         TextView mtvPreviewMessage;
         TextView mtvLastTime;
         TextView mtvNotReadCount;
+        RelativeLayout mrlUserGroup;
 
         final UserGroupAdapter adapter;
 
@@ -83,13 +84,15 @@ public class UserGroupAdapter extends RecyclerView.Adapter<UserGroupAdapter.User
             mtvPreviewMessage = (TextView) itemView.findViewById(R.id.tv_previewMessage);
             mtvLastTime =(TextView) itemView.findViewById(R.id.tv_lastTime);
             mtvNotReadCount = (TextView) itemView.findViewById(R.id.tv_notReadCount);
+            mrlUserGroup = (RelativeLayout) itemView.findViewById(R.id.rl_userGroup);
 
             this.adapter = adapter;
-
-            mtvGroupName.setOnClickListener(this);
-            mtvPreviewMessage.setOnClickListener(this);
-            mtvLastTime.setOnClickListener(this);
-            mtvNotReadCount.setOnClickListener(this);
+//
+//            mtvGroupName.setOnClickListener(this);
+//            mtvPreviewMessage.setOnClickListener(this);
+//            mtvLastTime.setOnClickListener(this);
+//            mtvNotReadCount.setOnClickListener(this);
+            mrlUserGroup.setOnClickListener(this);
         }
 
         @Override
@@ -99,10 +102,10 @@ public class UserGroupAdapter extends RecyclerView.Adapter<UserGroupAdapter.User
             UsersGroup group = usersGroupList.get(position);
 
             Intent inten = new Intent(context, GroupChatActivity.class);
-            inten.putExtra(EXTRA_IDGROUP, group.getIdGroup());
-            inten.putExtra(EXTRA_IDGM, group.getIdGM());
-            inten.putExtra(EXTRA_GROUPNAME, group.getGroupName());
-            inten.putExtra(EXTRA_GROUPPHOTO, group.getGroupPhoto());
+            inten.putExtra(TPConstant.EXTRA_IDGROUP, group.getIdGroup());
+            inten.putExtra(TPConstant.EXTRA_IDGM, group.getIdGM());
+            inten.putExtra(TPConstant.EXTRA_GROUPNAME, group.getGroupName());
+            inten.putExtra(TPConstant.EXTRA_GROUPPHOTO, group.getGroupPhoto());
 
             context.startActivity(inten);
         }

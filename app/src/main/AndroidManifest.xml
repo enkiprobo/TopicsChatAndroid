@@ -7,9 +7,9 @@
     <application
         android:name="com.orm.SugarApp"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher_topics_chat"
+        android:icon="@mipmap/ic_launcher_topic"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_topics_chat"
+        android:roundIcon="@mipmap/ic_launcher_topic"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <meta-data
@@ -58,6 +58,7 @@
         </activity>
         <activity
             android:name=".UserMainActivity"
+            android:windowSoftInputMode="stateHidden"
             android:configChanges="orientation"
             android:label=""
             android:launchMode="singleInstance"

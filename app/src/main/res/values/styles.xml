@@ -29,14 +29,14 @@
     <style name="default_button_style">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:background">@color/mainPurple</item>
+        <item name="android:background">@drawable/riple_button_default</item>
         <item name="android:textColor">@color/mainWhite</item>
     </style>
 
     <style name="default_text_editor_color">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColorHint">@color/black</item>
+        <item name="android:textColorHint">#d3d3d3</item>
         <item name="android:backgroundTint">@color/mainPurple</item>
     </style>
 </resources>

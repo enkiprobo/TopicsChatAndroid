@@ -25,6 +25,7 @@ import java.util.List;
 import topicschat.adapters.UserGroupAdapter;
 import topicschat.helper.TPConstant;
 import topicschat.networkutil.NetworkUtilTC;
+import topicschat.networkutil.WebsocketUtilTC;
 import topicschat.sqlitedatamodel.ChatDetail;
 import topicschat.sqlitedatamodel.GroupsTopic;
 import topicschat.sqlitedatamodel.Mute;
@@ -112,6 +113,12 @@ public class UserMainActivity extends AppCompatActivity {
                                 spe.clear();
                                 spe.apply();
 
+                                if (WebsocketUtilTC.wss != null){
+                                    Log.d("WEBSOCKETOKHTTP", "ingin menutup koneksi");
+                                    WebsocketUtilTC.wss.close(1000,"logout");
+                                    Log.d("WEBSOCKETOKHTTP", "berhasil menutup koneksi");
+                                    WebsocketUtilTC.wss = null;
+                                }
                                 Intent inten = new Intent(UserMainActivity.this, LoginActivity.class);
                                 UserMainActivity.this.startActivity(inten);
                                 UserMainActivity.this.finish();

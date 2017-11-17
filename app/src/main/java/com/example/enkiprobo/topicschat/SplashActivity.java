@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 
 import topicschat.networkutil.NetworkUtilTC;
+import topicschat.networkutil.WebsocketUtilTC;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -27,6 +28,9 @@ public class SplashActivity extends AppCompatActivity {
                 }
             }, 1000);
         }else{
+            if (WebsocketUtilTC.wss == null){
+                WebsocketUtilTC.initWebsocket(this);
+            }
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {

@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipToPadding="false"
+    android:background="@drawable/background_gradient_main"
     tools:context="com.example.enkiprobo.topicschat.NewGroupActivity">
 
     <android.support.v7.widget.Toolbar

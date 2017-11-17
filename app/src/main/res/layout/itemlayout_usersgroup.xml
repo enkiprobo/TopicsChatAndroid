@@ -1,53 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="fill_parent"
     android:layout_height="60sp"
+    android:paddingBottom="5sp"
+    android:paddingTop="5sp"
+    android:clipToPadding="false"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_margin="@dimen/default_margin"
-    android:background="@color/black_overlay">
+    android:background="@drawable/riple_user_group"
+    android:clickable="true"
+    android:focusable="true"
+    android:id="@+id/rl_userGroup">
 
     <LinearLayout
+        android:clickable="false"
+        android:focusable="false"
         android:id="@+id/iv_groupImage"
-        android:layout_width="60sp"
-        android:layout_height="60sp"
+        android:layout_width="80sp"
+        android:layout_height="50sp"
         android:padding="5sp"
         android:layout_alignParentLeft="true" >
         <de.hdodenhof.circleimageview.CircleImageView
+            android:clickable="false"
+            android:focusable="false"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/iv_groupImageReal"
-            android:src="@drawable/ic_group_black_24dp"
-            android:layout_alignParentLeft="true"
-            app:civ_border_width="2dp"
-            app:civ_border_color="@color/mainPurple"/>
+            android:src="@mipmap/ic_launcher_topic"
+            android:layout_alignParentLeft="true"/>
     </LinearLayout>
     <TextView
+        android:clickable="false"
+        android:focusable="false"
         android:id="@+id/tv_groupName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_toLeftOf="@+id/tv_lastTime"
         android:layout_toRightOf="@+id/iv_groupImage"
-        android:gravity="center_vertical"
-        android:paddingLeft="15sp"
+        android:paddingTop="5sp"
         android:text="Group Name"
-        android:textStyle="bold"
-        android:textSize="18sp"/>
+        android:textColor="@color/mainPurple"
+        android:textSize="15sp"/>
 
     <TextView
+        android:clickable="false"
+        android:focusable="false"
         android:text="contoh preview pesan yang kemungkinanpanjang banget "
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_below="@+id/tv_groupName"
         android:layout_toLeftOf="@+id/tv_notReadCount"
         android:layout_toRightOf="@+id/iv_groupImage"
-        android:gravity="center_vertical"
-        android:paddingLeft="15sp"
-        android:textSize="10sp"
+        android:textSize="8sp"
         android:id="@+id/tv_previewMessage"/>
 
     <TextView
+        android:clickable="false"
+        android:focusable="false"
         android:id="@+id/tv_lastTime"
         android:layout_width="50sp"
         android:layout_height="wrap_content"
@@ -56,16 +65,30 @@
         android:gravity="center"
         android:padding="5sp"
         android:text="00:00"
+        android:textColor="@color/mainPurple"
         android:textSize="12sp" />
 
     <TextView
+        android:clickable="false"
+        android:focusable="false"
         android:id="@+id/tv_notReadCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/tv_lastTime"
         android:layout_toRightOf="@+id/tv_groupName"
         android:gravity="center"
         android:text="1" />
+
+    <View
+        android:clickable="false"
+        android:focusable="false"
+        android:layout_toRightOf="@+id/iv_groupImage"
+        android:layout_alignParentBottom="true"
+        android:layout_width="fill_parent"
+        android:layout_height="1sp"
+        android:layout_marginBottom="-5sp"
+        android:background="#808353E6"
+        android:layout_centerVertical="true"/>
+
 </RelativeLayout>

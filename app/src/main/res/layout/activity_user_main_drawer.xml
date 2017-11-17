@@ -8,6 +8,7 @@
     <include layout="@layout/activity_user_main"/>
 
     <android.support.design.widget.NavigationView
+        android:background="@drawable/background_gradient_main"
         android:id="@+id/nv_usersGroup"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"

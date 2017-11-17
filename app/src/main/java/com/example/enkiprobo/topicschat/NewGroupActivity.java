@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import topicschat.helper.DRYMethod;
 import topicschat.networkutil.NetworkUtilTC;
 
 public class NewGroupActivity extends AppCompatActivity {
@@ -24,19 +25,19 @@ public class NewGroupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_group);
 
+        mtvInfo = (TextView) findViewById(R.id.tv_errorMessageCreateGroup);
+        mbtCreateGroup = (Button) findViewById(R.id.bt_createGroup);
+        metGroupName = (EditText) findViewById(R.id.et_createGroupName);
+        Toolbar mTBCG = (Toolbar) findViewById(R.id.tb_createGroup);
+
         // resizing logo
         BitmapDrawable logoOri = (BitmapDrawable) getResources().getDrawable(R.drawable.logoextend);
         Bitmap logoBitResize = Bitmap.createScaledBitmap(logoOri.getBitmap(), 350,100, false);
         Drawable logoResize = new BitmapDrawable(getResources(), logoBitResize);
 
-        Toolbar mTBCG = (Toolbar) findViewById(R.id.tb_createGroup);
+
         mTBCG.setLogo(logoResize);
-
         setSupportActionBar(mTBCG);
-
-        mtvInfo = (TextView) findViewById(R.id.tv_errorMessageCreateGroup);
-        mbtCreateGroup = (Button) findViewById(R.id.bt_createGroup);
-        metGroupName = (EditText) findViewById(R.id.et_createGroupName);
     }
 
     public void mendaftarkanGroup(View view) {
@@ -57,8 +58,7 @@ public class NewGroupActivity extends AppCompatActivity {
             new NetworkUtilTC().createGroup(this, groupName, "", username);
         } else {
             mtvInfo.setText("please fill all form");
-            mbtCreateGroup.setEnabled(true);
-            mbtCreateGroup.setBackgroundColor(getResources().getColor(R.color.mainPurple));
+            DRYMethod.buttonToRiple(mbtCreateGroup);
         }
 
     }

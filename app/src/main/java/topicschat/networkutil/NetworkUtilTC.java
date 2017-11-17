@@ -28,7 +28,12 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import topicschat.adapters.GroupChatAdapter;
 import topicschat.adapters.UserGroupAdapter;
+import topicschat.helper.DRYMethod;
+import topicschat.helper.TPConstant;
+import topicschat.sqlitedatamodel.ChatDetail;
+import topicschat.sqlitedatamodel.GroupsTopic;
 import topicschat.sqlitedatamodel.UsersGroup;
 
 /**
@@ -37,6 +42,7 @@ import topicschat.sqlitedatamodel.UsersGroup;
 
 public class NetworkUtilTC {
 
+//    private final String URL_BASE = "https://192.168.1.5/";
     private final String URL_BASE = "https://topicschatapi.herokuapp.com/";
     public static final String PREFERENCED_NAME = "com.example.enkiprobo.topicschat";
 
@@ -80,7 +86,10 @@ public class NetworkUtilTC {
                     @Override
                     public void run() {
                         TextView tv = (TextView) ((Activity) context).findViewById(R.id.tv_errorMessage);
+                        Button bt = (Button) ((Activity) context).findViewById(R.id.bt_register);
+
                         tv.setVisibility(View.VISIBLE);
+                        DRYMethod.buttonToRiple(bt);
                         tv.setText("please try again later");
                     }
                 });
@@ -108,8 +117,7 @@ public class NetworkUtilTC {
                             tv.setText(status);
                             tv.setVisibility(View.VISIBLE);
 
-                            bt.setBackgroundColor(context.getResources().getColor(R.color.mainPurple));
-                            bt.setEnabled(true);
+                            DRYMethod.buttonToRiple(bt);
                         } else {
                             Intent inten = new Intent(context, RegistrationSuccessActivity.class);
 
@@ -142,8 +150,11 @@ public class NetworkUtilTC {
                     @Override
                     public void run() {
                         TextView tv = (TextView) ((Activity) context).findViewById(R.id.tv_errorLogin);
+                        Button bt = (Button) ((Activity) context).findViewById(R.id.bt_login);
+                        
                         tv.setVisibility(View.VISIBLE);
                         tv.setText("please try again later");
+                        DRYMethod.buttonToRiple(bt);
                         Log.d("MAJU", "network adapter gpp kok");
                     }
                 });
@@ -165,8 +176,7 @@ public class NetworkUtilTC {
                             if (!status.equals("OK")){
                                 tv.setVisibility(View.VISIBLE);
                                 tv.setText(status);
-                                bt.setEnabled(true);
-                                bt.setBackgroundColor(context.getResources().getColor(R.color.mainPurple));
+                                DRYMethod.buttonToRiple(bt);
                                 Log.d("MENCOBALOGIN", "gak ok");
                             }else{
                                 Log.d("MENCOBALOGIN", "berhasil mendapatkan status ok");
@@ -184,6 +194,9 @@ public class NetworkUtilTC {
                                 pEditor.putString("birthdate", birthDate);
                                 pEditor.apply();
 
+                                if (WebsocketUtilTC.wss == null){
+                                    WebsocketUtilTC.initWebsocket(context);
+                                }
                                 Intent inten = new Intent(context, UserMainActivity.class);
                                 context.startActivity(inten);
                                 ((Activity) context).finish();
@@ -191,11 +204,11 @@ public class NetworkUtilTC {
                         } catch (JSONException e) {
                             tv.setVisibility(View.VISIBLE);
                             tv.setText("username or password not exist");
+                            DRYMethod.buttonToRiple(bt);
                             e.printStackTrace();
                         }
                     }
                 });
-
             }
         });
     }
@@ -220,7 +233,8 @@ public class NetworkUtilTC {
                     public void run() {
                         TextView tv = (TextView) ((Activity) context).findViewById(R.id.tv_infoMain);
 
-                        tv.setText(context.getResources().getString(R.string.no_group));
+                        tv.setTextColor(context.getResources().getColor(R.color.redError));
+                        tv.setText("Error while getting \nuser's group information");
                     }
                 });
             }
@@ -237,31 +251,39 @@ public class NetworkUtilTC {
                             JSONObject responseJSON = new JSONObject(response.body().string());
                             String status = responseJSON.getString("status");
                             if (!status.equals("OK")){
-                                tv.setText("error while getting group data");
+                                tv.setText(context.getResources().getString(R.string.no_group));
                             } else {
                                 JSONArray groupListJson = responseJSON.getJSONArray("group_list");
-                                for (int i = 0; i < groupListJson.length(); i++) {
-                                    JSONObject groupJson = groupListJson.getJSONObject(i);
+                                if (groupListJson.length() >0 ){
+                                    for (int i = 0; i < groupListJson.length(); i++) {
+                                        JSONObject groupJson = groupListJson.getJSONObject(i);
 
-                                    int idGroup = groupJson.getInt("id_group");
-                                    String groupName = groupJson.getString("group_name");
-                                    String groupImage = groupJson.getString("group_image");
-                                    int idGm = groupJson.getInt("id_gm");
+                                        int idGroup = groupJson.getInt("id_group");
+                                        String groupName = groupJson.getString("group_name");
+                                        String groupImage = groupJson.getString("group_image");
+                                        int idGm = groupJson.getInt("id_gm");
 
-                                    UsersGroup group = new UsersGroup(idGroup,idGm,groupName,groupImage,"","00:00",0);
-                                    group.save();
+                                        UsersGroup group = new UsersGroup(idGroup,idGm,groupName,groupImage,"","00:00",0);
+                                        group.save();
+                                        getGroupTopic(context, idGroup);
+                                    }
+                                    UserGroupAdapter adapter = (UserGroupAdapter) rv.getAdapter();
+
+                                    adapter.setUsersGroupList(UsersGroup.listAll(UsersGroup.class));
+                                    adapter.notifyDataSetChanged();
+
+                                    tv.setVisibility(View.GONE);
+                                    rv.setVisibility(View.VISIBLE);
+                                }else{
+                                    tv.setText(context.getResources().getString(R.string.no_group));
                                 }
-                                UserGroupAdapter adapter = (UserGroupAdapter) rv.getAdapter();
 
-                                adapter.setUsersGroupList(UsersGroup.listAll(UsersGroup.class));
-                                adapter.notifyDataSetChanged();
-
-                                tv.setVisibility(View.GONE);
-                                rv.setVisibility(View.VISIBLE);
                             }
                         } catch (JSONException e) {
+                            tv.setText(context.getResources().getString(R.string.no_group));
                             e.printStackTrace();
                         } catch (IOException e) {
+                            tv.setText(context.getResources().getString(R.string.no_group));
                             e.printStackTrace();
                         }
 
@@ -295,8 +317,7 @@ public class NetworkUtilTC {
                         Button bt = (Button) ((Activity) context).findViewById(R.id.bt_createGroup);
 
                         tv.setText("please try again later");
-                        bt.setEnabled(true);
-                        bt.setBackgroundColor(context.getResources().getColor(R.color.mainPurple));
+                        DRYMethod.buttonToRiple(bt);
                     }
                 });
             }
@@ -314,8 +335,7 @@ public class NetworkUtilTC {
                             String status = responseJSON.getString("status");
                             if (!status.equals("OK")){
                                 tv.setText("error while getting group data");
-                                bt.setEnabled(true);
-                                bt.setBackgroundColor(context.getResources().getColor(R.color.mainPurple));
+                                DRYMethod.buttonToRiple(bt);
                             } else {
                                 JSONArray groupListJson = responseJSON.getJSONArray("group_list");
                                 for (int i = 0; i < groupListJson.length(); i++) {
@@ -336,13 +356,11 @@ public class NetworkUtilTC {
                             }
                         } catch (JSONException e) {
                             tv.setText("error while getting group data");
-                            bt.setEnabled(true);
-                            bt.setBackgroundColor(context.getResources().getColor(R.color.mainPurple));
+                            DRYMethod.buttonToRiple(bt);
                             e.printStackTrace();
                         } catch (IOException e) {
                             tv.setText("error while getting group data");
-                            bt.setEnabled(true);
-                            bt.setBackgroundColor(context.getResources().getColor(R.color.mainPurple));
+                            DRYMethod.buttonToRiple(bt);
                             e.printStackTrace();
                         }
                     }
@@ -414,6 +432,137 @@ public class NetworkUtilTC {
                         }
                     }
                 });
+
+            }
+        });
+    }
+    public void getChatGroupAll(final Context context, final int idGroup){
+        Log.d("CHATTINGBABARENGAN", "baru manggil chat group");
+        RequestBody requestBody = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart(PARAM_IDGROUP, idGroup+"")
+                .build();
+
+        final Request request = new Request.Builder()
+                .url(URL_BASE + "getchatgroupall")
+                .method("POST", RequestBody.create(null, new byte[0]))
+                .post(requestBody)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    Log.d("CHATTINGBABARENGAN", "sama ini duluan mana?");
+                    JSONObject responseJson = new JSONObject(response.body().string());
+                    JSONArray chatListJson = responseJson.getJSONArray("chat_list");
+                    for (int i = 0; i < chatListJson.length(); i++) {
+                        JSONObject chatJson = chatListJson.getJSONObject(i);
+
+                        int idGCD = chatJson.getInt("id_gcd");
+                        String message = chatJson.getString("chat_message");
+                        int idTopic = chatJson.getInt("id_topic");
+                        boolean pin = chatJson.getBoolean("pin");
+                        String createdTime = chatJson.getString("created_time");
+                        String username = chatJson.getString("username");
+                        int idGM = chatJson.getInt("id_gm");
+
+                        ChatDetail chat = new ChatDetail(idGCD,message,idTopic,pin,createdTime);
+                        chat.save();
+                    }
+
+                    ((Activity)context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            RecyclerView rv = (RecyclerView) ((Activity) context).findViewById(R.id.rv_chatList);
+                            if (rv != null){
+                                GroupChatAdapter gca = (GroupChatAdapter) rv.getAdapter();
+                                gca.update(idGroup);
+                                gca.notifyDataSetChanged();
+                            }
+
+                        }
+                    });
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    public void getGroupTopic(final Context context, final int idGroup){
+        Log.d("CHATTINGBABARENGAN", "dipanggil nih");
+        RequestBody requestBody = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart(PARAM_IDGROUP, idGroup+"")
+                .build();
+
+        final Request request = new Request.Builder()
+                .url(URL_BASE + "getgrouptopic")
+                .method("POST", RequestBody.create(null, new byte[0]))
+                .post(requestBody)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                // error while getting topic
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    Log.d("CHATTINGBABARENGAN", "SUDAH DISINI");
+                    JSONObject responseJson = new JSONObject(response.body().string());
+                    JSONArray topicListJson = responseJson.getJSONArray("topic_list");
+                    for (int i = 0; i < topicListJson.length(); i++) {
+                        JSONObject topicJson = topicListJson.getJSONObject(i);
+
+                        int idTopic = topicJson.getInt("id_topic");
+                        String topicName = topicJson.getString("topic_name");
+                        int idGroup = topicJson.getInt("id_group");
+
+                        GroupsTopic topic = new GroupsTopic(idTopic,topicName,idGroup);
+                        topic.save();
+                    }
+                    getChatGroupAll(context, idGroup);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    public void createChat(final Context context, int idTopic, int idGM, String message){
+        Log.d("CHATTINGBABARENGAN", "dipanggil nih");
+        RequestBody requestBody = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart(TPConstant.PARAM_IDGM, idGM+"")
+                .addFormDataPart(TPConstant.PARAM_IDTOPIC, idTopic+"")
+                .addFormDataPart(TPConstant.PARAM_MESSAGE, message)
+                .build();
+
+        final Request request = new Request.Builder()
+                .url(URL_BASE + "createchat")
+                .method("POST", RequestBody.create(null, new byte[0]))
+                .post(requestBody)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Call call, final Response response) throws IOException {
 
             }
         });

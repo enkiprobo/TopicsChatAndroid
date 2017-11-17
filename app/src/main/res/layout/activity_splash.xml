@@ -5,13 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.enkiprobo.topicschat.SplashActivity">
+    tools:context="com.example.enkiprobo.topicschat.SplashActivity"
+    android:background="@drawable/background_gradient_main">
 
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/topics_chat_logo"
+        android:src="@drawable/logodefault"
         android:scaleType="center" />
 
 </LinearLayout>
