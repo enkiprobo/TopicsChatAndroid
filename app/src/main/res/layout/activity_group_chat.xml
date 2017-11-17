@@ -21,22 +21,55 @@
         android:id="@+id/rv_chatList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/rl_chatting"
+        android:layout_above="@+id/rv_topicList"
         android:layout_below="@+id/tb_chatGroup">
 
     </android.support.v7.widget.RecyclerView>
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_topicList"
+        android:layout_width="match_parent"
+        android:layout_height="40sp"
+        android:layout_above="@+id/ly_createTopic"
+        android:paddingLeft="10sp"
+        android:paddingRight="10sp"
+        android:visibility="gone">
+
+    </android.support.v7.widget.RecyclerView>
+
+    <LinearLayout
+        android:id="@+id/ly_createTopic"
+        android:layout_width="match_parent"
+        android:layout_height="40sp"
+        android:layout_above="@+id/rl_chatting"
+        android:background="@drawable/riple_user_group"
+        android:paddingLeft="20sp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_add_black_24dp" />
+
+        <TextView
+            android:id="@+id/tv_addNewTopic"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="15sp"
+            android:gravity="center"
+            android:text="add new topic"
+            android:textColor="#66000000" />
+    </LinearLayout>
+
     <RelativeLayout
-        android:elevation="15dp"
-        android:background="?attr/colorPrimary"
         android:id="@+id/rl_chatting"
         android:layout_width="match_parent"
         android:layout_height="45sp"
         android:layout_alignParentBottom="true"
+        android:background="?attr/colorPrimary"
+        android:elevation="15dp"
         android:orientation="horizontal">
 
         <ImageView
-            android:scaleType="center"
             android:id="@+id/iv_chatTopics"
             android:layout_width="40sp"
             android:layout_height="match_parent"
@@ -45,11 +78,13 @@
             android:layout_alignParentTop="true"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/topics_content_description"
+            android:onClick="bukaTopic"
+            android:scaleType="center"
             android:src="@drawable/ic_label_black_24dp" />
 
         <EditText
-            style="@style/default_text_editor_color"
             android:id="@+id/et_chatMessage"
+            style="@style/default_text_editor_color"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentBottom="true"
@@ -57,9 +92,9 @@
             android:layout_marginLeft="10sp"
             android:layout_toLeftOf="@+id/bt_chatSend"
             android:layout_toRightOf="@+id/iv_chatTopics"
-            android:hint="@string/type_your_message_here_hint"
             android:backgroundTint="@android:color/transparent"
-            android:textColorHint="#338353E6"/>
+            android:hint="@string/type_your_message_here_hint"
+            android:textColorHint="@color/purpleSlow" />
 
         <Button
             android:id="@+id/bt_chatSend"
@@ -70,7 +105,7 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:gravity="center"
-            android:text="@string/send_button"
-            android:onClick="kirimPesan"/>
+            android:onClick="kirimPesan"
+            android:text="@string/send_button" />
     </RelativeLayout>
 </RelativeLayout>

@@ -2,6 +2,8 @@ package topicschat.sqlitedatamodel;
 
 import com.orm.SugarRecord;
 
+import java.util.List;
+
 /**
  * Created by enkiprobo on 11/14/2017.
  */
@@ -53,5 +55,9 @@ public class GroupsTopic extends SugarRecord {
 
     public void setCountNotRead(int countNotRead) {
         this.countNotRead = countNotRead;
+    }
+
+    public static List<GroupsTopic> getGroupTopic(int idGroup){
+        return GroupsTopic.find(GroupsTopic.class, "id_group = ?", idGroup+"");
     }
 }

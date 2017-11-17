@@ -32,6 +32,7 @@ public class GroupChatAdapter extends RecyclerView.Adapter<GroupChatAdapter.Grou
 
     public void setChatDetailList(List<ChatDetail> chatDetailList){
         this.chatDetailList = chatDetailList;
+        notifyDataSetChanged();
     }
 
     public void update(int idGroup){
