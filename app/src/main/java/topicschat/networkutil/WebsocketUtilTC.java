@@ -26,6 +26,7 @@ import topicschat.adapters.GroupTopicAdapter;
 import topicschat.helper.TPConstant;
 import topicschat.sqlitedatamodel.ChatDetail;
 import topicschat.sqlitedatamodel.GroupsTopic;
+import topicschat.sqlitedatamodel.Mute;
 import topicschat.sqlitedatamodel.UsersGroup;
 
 /**
@@ -94,8 +95,11 @@ public class WebsocketUtilTC {
 
                                     recyclerView.scrollToPosition(chatDetails.size()-1);
                                 } else {
-                                    String groupName = UsersGroup.find(UsersGroup.class, "id_group = ?", topic.get(0).getIdGroup()+"").get(0).getGroupName();
-                                    showNotification(groupName, message);
+                                    List<Mute> mute = Mute.find(Mute.class, "id_topic = ?", idTopic+"");
+                                    if(mute.size()<1){
+                                        String groupName = UsersGroup.find(UsersGroup.class, "id_group = ?", topic.get(0).getIdGroup()+"").get(0).getGroupName();
+                                        showNotification(groupName, message);
+                                    }
                                 }
                             }
                         });
