@@ -22,6 +22,7 @@ import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
 import okio.ByteString;
 import topicschat.adapters.GroupChatAdapter;
+import topicschat.adapters.GroupTopicAdapter;
 import topicschat.helper.TPConstant;
 import topicschat.sqlitedatamodel.ChatDetail;
 import topicschat.sqlitedatamodel.GroupsTopic;
@@ -101,7 +102,34 @@ public class WebsocketUtilTC {
                     }
                 }
             } else if (category.equals("topic")){
+                JSONObject topicInfoJson = resposneJSON.getJSONObject(category);
 
+                int idTopic = topicInfoJson.getInt("id_topic");
+                final int idGroup = topicInfoJson.getInt("id_group");
+                final String topicName = topicInfoJson.getString("topic_name");
+
+                GroupsTopic topic = new GroupsTopic(idTopic,topicName,idGroup);
+                topic.save();
+                Log.d("WEBSOCKETOKHTTP", "berhasil masuk topic");
+
+                ((Activity)contextHolder).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        RecyclerView rv = (RecyclerView) ((Activity) contextHolder).findViewById(R.id.rv_topicList);
+                        if (rv != null ){
+                            GroupTopicAdapter adapter = (GroupTopicAdapter) rv.getAdapter();
+                            List<GroupsTopic> groupsTopicList = GroupsTopic.find(GroupsTopic.class, "id_group = ?", idGroup+"");
+                            adapter.updateTopicList(groupsTopicList);
+                            adapter.notifyDataSetChanged();
+
+                        } else {
+
+                            String groupName = UsersGroup.find(UsersGroup.class, "id_group = ?", idGroup+"").get(0).getGroupName();
+                            String message = "topic '"+topicName+"' has been created";
+                            showNotification(groupName, message);
+                        }
+                    }
+                });
             } else if (category.equals("group")){
 
             }

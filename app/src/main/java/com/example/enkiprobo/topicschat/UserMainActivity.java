@@ -132,6 +132,10 @@ public class UserMainActivity extends AppCompatActivity {
         });
         mName = (TextView) mnvUserGroup.getHeaderView(0).findViewById(R.id.tv_navHeaderFullName);
         mName.setText(userFullname);
+
+        if (Mute.count(Mute.class)<1){
+            new NetworkUtilTC().getAllMute(userUsername);
+        }
     }
 
     @Override

@@ -20,6 +20,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -29,11 +30,13 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import topicschat.adapters.GroupChatAdapter;
+import topicschat.adapters.GroupTopicAdapter;
 import topicschat.adapters.UserGroupAdapter;
 import topicschat.helper.DRYMethod;
 import topicschat.helper.TPConstant;
 import topicschat.sqlitedatamodel.ChatDetail;
 import topicschat.sqlitedatamodel.GroupsTopic;
+import topicschat.sqlitedatamodel.Mute;
 import topicschat.sqlitedatamodel.UsersGroup;
 
 /**
@@ -564,6 +567,166 @@ public class NetworkUtilTC {
             @Override
             public void onResponse(Call call, final Response response) throws IOException {
 
+            }
+        });
+    }
+
+    public void createTopic(Context context, String topicName, int idGroup){
+        RequestBody requestBody = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart(TPConstant.PARAM_TOPICNAME, topicName)
+                .addFormDataPart(TPConstant.PARAM_IDGROUP, idGroup+"")
+                .build();
+
+        final Request request = new Request.Builder()
+                .url(URL_BASE + "createtopic")
+                .method("POST", RequestBody.create(null, new byte[0]))
+                .post(requestBody)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+
+            }
+        });
+    }
+
+    public void muteChat(final Context context, String username, final int idTopic){
+        RequestBody requestBody = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart(TPConstant.PARAM_USERNAME, username)
+                .addFormDataPart(TPConstant.PARAM_IDTOPIC, idTopic+"")
+                .build();
+
+        final Request request = new Request.Builder()
+                .url(URL_BASE + "createmute")
+                .method("POST", RequestBody.create(null, new byte[0]))
+                .post(requestBody)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    JSONObject responseJSON = new JSONObject(response.body().string());
+
+                    String status = responseJSON.getString("status");
+                    if (status.equals("OK")){
+                        Mute mute = new Mute(idTopic);
+                        mute.save();
+
+                        ((Activity)context).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                RecyclerView rv = ((Activity) context).findViewById(R.id.rv_topicList);
+
+                                GroupTopicAdapter adapter = (GroupTopicAdapter) rv.getAdapter();
+                                GroupsTopic topic = GroupsTopic.find(GroupsTopic.class, "id_topic = ?", idTopic+"").get(0);
+                                List<GroupsTopic> groupsTopicList = GroupsTopic.find(GroupsTopic.class, "id_group = ?", topic.getIdGroup()+"");
+                                adapter.updateTopicList(groupsTopicList);
+                            }
+                        });
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+    public void unmuteChat(final Context context, String username, final int idTopic){
+        RequestBody requestBody = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart(TPConstant.PARAM_USERNAME, username)
+                .addFormDataPart(TPConstant.PARAM_IDTOPIC, idTopic+"")
+                .build();
+
+        final Request request = new Request.Builder()
+                .url(URL_BASE + "deletemute")
+                .method("POST", RequestBody.create(null, new byte[0]))
+                .post(requestBody)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    JSONObject responseJSON = new JSONObject(response.body().string());
+
+                    String status = responseJSON.getString("status");
+                    if (status.equals("OK")){
+                        Mute mute = Mute.find(Mute.class, "id_topic = ?", idTopic+"").get(0);
+                        Mute.delete(mute);
+
+                        ((Activity)context).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                RecyclerView rv = ((Activity) context).findViewById(R.id.rv_topicList);
+
+                                GroupTopicAdapter adapter = (GroupTopicAdapter) rv.getAdapter();
+                                GroupsTopic topic = GroupsTopic.find(GroupsTopic.class, "id_topic = ?", idTopic+"").get(0);
+                                List<GroupsTopic> groupsTopicList = GroupsTopic.find(GroupsTopic.class, "id_group = ?", topic.getIdGroup()+"");
+                                adapter.updateTopicList(groupsTopicList);
+                            }
+                        });
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    public void getAllMute(String username){
+        RequestBody requestBody = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart(TPConstant.PARAM_USERNAME, username)
+                .build();
+
+        final Request request = new Request.Builder()
+                .url(URL_BASE + "getmutelist")
+                .method("POST", RequestBody.create(null, new byte[0]))
+                .post(requestBody)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    JSONObject responseJson = new JSONObject(response.body().string());
+                    String status = responseJson.getString("status");
+                    if (status.equals("OK")){
+                        JSONArray topicMuteListJson = responseJson.getJSONArray("topic_id_list_mute");
+                        for (int i =0; i< topicMuteListJson.length();i++){
+                            int idTopic = topicMuteListJson.getInt(i);
+                            Mute mute = new Mute(idTopic);
+                            mute.save();
+                        }
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }

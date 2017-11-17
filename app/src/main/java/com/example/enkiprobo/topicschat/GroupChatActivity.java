@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,6 +15,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -31,6 +35,8 @@ public class GroupChatActivity extends AppCompatActivity {
     private ImageView mivChatTopic;
     private EditText metChatMessage;
     private Button mbtSend;
+    private TextView mtvCreateTopic;
+    private LinearLayout mlyCreateTopic;
     private RecyclerView mrvChatList;
     private RecyclerView mrvTopicList;
     private List<ChatDetail> chatDetailList;
@@ -43,6 +49,7 @@ public class GroupChatActivity extends AppCompatActivity {
     private String groupImage;
 
     private GroupsTopic chatTopic;
+    private String tempTopicName = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +65,8 @@ public class GroupChatActivity extends AppCompatActivity {
         mbtSend = (Button) findViewById(R.id.bt_chatSend);
         mrvTopicList = (RecyclerView) findViewById(R.id.rv_topicList);
         mrvChatList = (RecyclerView) findViewById(R.id.rv_chatList);
+        mlyCreateTopic = (LinearLayout) findViewById(R.id.ly_createTopic);
+        mtvCreateTopic = (TextView) findViewById(R.id.tv_addNewTopic);
 
         setSupportActionBar(mtbGroupChat);
         Log.d("MENCARIERROR", "DIDIDIDI?");
@@ -74,6 +83,58 @@ public class GroupChatActivity extends AppCompatActivity {
         GroupTopicAdapter adapterGA = new GroupTopicAdapter(this, groupsTopicList);
         mrvTopicList.setAdapter(adapterGA);
         mrvTopicList.setLayoutManager(new LinearLayoutManager(this,  LinearLayoutManager.HORIZONTAL, false));
+
+        metChatMessage.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+                String temp= editable.toString();
+                if (temp.length()>0){
+                    if (temp.charAt(0) == '#'){
+
+                        if (temp.length()>1){
+                            if (temp.charAt(1) != ' '){
+                                mlyCreateTopic.setVisibility(View.VISIBLE);
+
+                                int indexSpace = temp.indexOf(' ');
+                                if (indexSpace >1){
+                                    tempTopicName = temp.substring(1,indexSpace);
+                                }else {
+                                    tempTopicName = temp.substring(1, temp.length());
+                                }
+
+                                Log.d("BISAKAH", tempTopicName);
+                            } else{
+                                tempTopicName = "";
+                            }
+                        }else {
+                            tempTopicName = "";
+                        }
+                    }
+                    mtvCreateTopic.setText("add new topic "+tempTopicName);
+
+                    if(tempTopicName.length()<1){
+                        mlyCreateTopic.setVisibility(View.GONE);
+                    }else {
+                        for (GroupsTopic topic: groupsTopicList) {
+                            if (topic.getTopicName().toLowerCase().equals(tempTopicName.toLowerCase())){
+                                mlyCreateTopic.setVisibility(View.GONE);
+                            }
+                        }
+                    }
+                }
+            }
+        });
 
         Log.d("MENCARIERROR", "DISINI?");
         updateTitle();
@@ -160,5 +221,14 @@ public class GroupChatActivity extends AppCompatActivity {
 
     public void bukaTopic(View view) {
         mrvTopicList.setVisibility(mrvTopicList.getVisibility()==View.GONE? View.VISIBLE:View.GONE);
+    }
+
+    public void buatTopicBaru(View view) {
+        if (tempTopicName.length()>0){
+            new NetworkUtilTC().createTopic(this, tempTopicName, groupIDGroup);
+            mlyCreateTopic.setVisibility(View.GONE);
+            metChatMessage.setText("");
+            
+        }
     }
 }
